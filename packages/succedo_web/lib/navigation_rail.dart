@@ -73,46 +73,48 @@ class NavigationRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          height: 57,
-          width: double.infinity,
-          padding: EdgeInsets.only(left: 20),
-          color: Theme.of(context).primaryColor,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-                color: Theme.of(context).canvasColor,
+    return Material(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            height: 57,
+            width: double.infinity,
+            padding: EdgeInsets.only(left: 20),
+            color: Theme.of(context).primaryColor,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  color: Theme.of(context).canvasColor,
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              Container(
-                width: 72,
-                color: Colors.grey[200],
-                child: Column(
-                  children: [
-                    ...destinations,
-                  ],
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  width: 72,
+                  color: Colors.grey[200],
+                  child: Column(
+                    children: [
+                      ...destinations,
+                    ],
+                  ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: body,
-              )
-            ],
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: body,
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
