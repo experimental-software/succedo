@@ -69,6 +69,7 @@ class NavigationRail extends StatelessWidget {
       children: [
         Container(
           width: 72,
+          color: Colors.grey[200],
           child: Column(
             children: destinations,
           ),
@@ -103,14 +104,35 @@ class Destination extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: active ? Colors.yellow : Colors.grey,
+              color: _iconColor(context),
               size: 30.0,
             ),
-            Text(label),
+            Text(
+              label,
+              style: _textStyle(context),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Color _iconColor(BuildContext context) {
+    if (active) {
+      return Theme.of(context).indicatorColor;
+    } else {
+      return Theme.of(context).backgroundColor;
+    }
+  }
+
+  TextStyle _textStyle(BuildContext context) {
+    if (active) {
+      return TextStyle(
+        fontWeight: FontWeight.bold,
+      );
+    } else {
+      return TextStyle();
+    }
   }
 }
 
