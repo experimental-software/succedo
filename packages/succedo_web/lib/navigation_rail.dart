@@ -18,33 +18,33 @@ class SuccedoNavigationRail extends StatelessWidget {
       body: body,
       destinations: [
         Destination(
-          active: activeDestination == Destinations.agenda,
           label: "Agenda",
           icon: Icons.assignment,
+          active: activeDestination == Destinations.agenda,
           onPressed: () {
             print("Go to 'Agenda'!");
           },
         ),
         Destination(
-          active: activeDestination == Destinations.backlog,
           label: "Backlog",
           icon: Icons.folder,
+          active: activeDestination == Destinations.backlog,
           onPressed: () {
             print("Go to 'Backlog'!");
           },
         ),
         Destination(
-          active: activeDestination == Destinations.calendar,
           label: "Calendar",
           icon: Icons.calendar_today_outlined,
+          active: activeDestination == Destinations.calendar,
           onPressed: () {
             print("Go to 'Calendar'!");
           },
         ),
         Destination(
-          active: activeDestination == Destinations.reminders,
           label: "Reminders",
           icon: Icons.notifications,
+          active: activeDestination == Destinations.reminders,
           onPressed: () {
             print("Go to 'Reminders'!");
           },
