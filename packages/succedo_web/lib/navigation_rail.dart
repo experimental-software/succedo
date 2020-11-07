@@ -93,20 +93,24 @@ class NavigationRail extends StatelessWidget {
             ),
           ),
         ),
-        Row(
-          children: [
-            Container(
-              width: 72,
-              color: Colors.grey[200],
-              child: Column(
-                children: destinations,
+        Expanded(
+          child: Row(
+            children: [
+              Container(
+                width: 72,
+                color: Colors.grey[200],
+                child: Column(
+                  children: [
+                    ...destinations,
+                  ],
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: body,
-            )
-          ],
+              Align(
+                alignment: Alignment.topLeft,
+                child: body,
+              )
+            ],
+          ),
         ),
       ],
     );
