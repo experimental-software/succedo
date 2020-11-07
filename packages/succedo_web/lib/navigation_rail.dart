@@ -14,6 +14,7 @@ class SuccedoNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NavigationRail(
+      title: "Succedo",
       body: body,
       destinations: [
         Destination(
@@ -55,29 +56,57 @@ class SuccedoNavigationRail extends StatelessWidget {
 
 /// See https://material.io/components/navigation-rail
 class NavigationRail extends StatelessWidget {
+  final String title;
   final FloatingActionButton floatingActionButton;
   final List<Destination> destinations;
   final Widget body;
   final Key activeDestination;
 
-  NavigationRail({this.destinations = const [], this.floatingActionButton, @required this.body, this.activeDestination})
-      : assert(body != null);
+  NavigationRail({
+    this.destinations = const [],
+    this.floatingActionButton,
+    @required this.body,
+    this.activeDestination,
+    @required this.title,
+  })  : assert(body != null),
+        assert(title != null);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
         Container(
-          width: 72,
-          color: Colors.grey[200],
-          child: Column(
-            children: destinations,
+          height: 57,
+          width: double.infinity,
+          padding: EdgeInsets.only(left: 20),
+          color: Theme.of(context).primaryColor,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                color: Theme.of(context).canvasColor,
+              ),
+            ),
           ),
         ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: body,
-        )
+        Row(
+          children: [
+            Container(
+              width: 72,
+              color: Colors.grey[200],
+              child: Column(
+                children: destinations,
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: body,
+            )
+          ],
+        ),
       ],
     );
   }
