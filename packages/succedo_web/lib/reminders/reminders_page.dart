@@ -8,7 +8,7 @@ class RemindersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SuccedoNavigationRail(
-      activeDestination: RouteGenerator.agendaPage,
+      activeDestination: RouteGenerator.remindersPage,
       body: Text("<Reminders>"),
     );
   }

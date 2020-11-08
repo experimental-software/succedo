@@ -8,7 +8,7 @@ class CalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SuccedoNavigationRail(
-      activeDestination: RouteGenerator.agendaPage,
+      activeDestination: RouteGenerator.calendarPage,
       body: Text("<Calendar>"),
     );
   }
