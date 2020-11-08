@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../navigation_rail.dart';
+import 'package:succedo_web/navigation_rail.dart';
 
 class BacklogPage extends StatelessWidget {
   const BacklogPage();

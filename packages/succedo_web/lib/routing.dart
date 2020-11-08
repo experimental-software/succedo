@@ -47,5 +47,6 @@ class _CustomPageRoute extends MaterialPageRoute {
 
 class _RouteException implements Exception {
   final String message;
+
   _RouteException(this.message);
 }
