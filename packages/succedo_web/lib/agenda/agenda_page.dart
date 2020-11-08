@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:succedo_web/navigation_rail.dart';
+import 'package:succedo_web/routing.dart';
 
 class AgendaPage extends StatelessWidget {
   const AgendaPage();
@@ -7,7 +8,7 @@ class AgendaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SuccedoNavigationRail(
-      activeDestination: Destinations.agenda,
+      activeDestination: RouteGenerator.agendaPage,
       body: Text("<Agenda>"),
     );
   }

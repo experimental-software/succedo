@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:succedo_web/navigation_rail.dart';
+import 'package:succedo_web/routing.dart';
 
 class BacklogPage extends StatelessWidget {
   const BacklogPage();
@@ -7,7 +8,7 @@ class BacklogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SuccedoNavigationRail(
-      activeDestination: Destinations.backlog,
+      activeDestination: RouteGenerator.backlogPage,
       body: Text("<Backlog>"),
     );
   }
