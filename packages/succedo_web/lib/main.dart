@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:succedo_web/agenda_page.dart';
+import 'package:succedo_web/agenda/agenda_page.dart';
+import 'package:succedo_web/routing.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,7 +10,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      onGenerateTitle: (context) => "Succedo",
+      initialRoute: RouteGenerator.homePage,
+      onGenerateRoute: RouteGenerator.generateRoute,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

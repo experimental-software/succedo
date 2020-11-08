@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:succedo_web/routing.dart';
 import 'package:succedo_web/test_bench.dart';
 
 enum Destinations { agenda, backlog, calendar, reminders }
@@ -22,7 +23,7 @@ class SuccedoNavigationRail extends StatelessWidget {
           icon: Icons.assignment,
           active: activeDestination == Destinations.agenda,
           onPressed: () {
-            print("Go to 'Agenda'!");
+            Navigator.of(context)?.pushNamed(RouteGenerator.agendaPage);
           },
         ),
         Destination(
@@ -30,7 +31,7 @@ class SuccedoNavigationRail extends StatelessWidget {
           icon: Icons.folder,
           active: activeDestination == Destinations.backlog,
           onPressed: () {
-            print("Go to 'Backlog'!");
+            Navigator.of(context)?.pushNamed(RouteGenerator.backlogPage);
           },
         ),
         Destination(
@@ -38,7 +39,7 @@ class SuccedoNavigationRail extends StatelessWidget {
           icon: Icons.calendar_today_outlined,
           active: activeDestination == Destinations.calendar,
           onPressed: () {
-            print("Go to 'Calendar'!");
+            Navigator.of(context)?.pushNamed(RouteGenerator.calendarPage);
           },
         ),
         Destination(
@@ -46,7 +47,7 @@ class SuccedoNavigationRail extends StatelessWidget {
           icon: Icons.notifications,
           active: activeDestination == Destinations.reminders,
           onPressed: () {
-            print("Go to 'Reminders'!");
+            Navigator.of(context)?.pushNamed(RouteGenerator.remindersPage);
           },
         ),
       ],
