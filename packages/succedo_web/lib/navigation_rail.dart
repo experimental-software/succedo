@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:succedo_web/routing.dart';
 import 'package:succedo_web/test_bench.dart';
 
-enum Destinations { agenda, backlog, calendar, reminders }
-
 class SuccedoNavigationRail extends StatelessWidget {
-  final Destinations activeDestination;
+  final String activeDestination;
   final Widget body;
 
   SuccedoNavigationRail({@required this.activeDestination, @required this.body})
@@ -20,33 +19,33 @@ class SuccedoNavigationRail extends StatelessWidget {
         Destination(
           label: "Agenda",
           icon: Icons.assignment,
-          active: activeDestination == Destinations.agenda,
+          active: activeDestination == RouteGenerator.agendaPage,
           onPressed: () {
-            print("Go to 'Agenda'!");
+            Navigator.of(context)?.pushNamed(RouteGenerator.agendaPage);
           },
         ),
         Destination(
           label: "Backlog",
           icon: Icons.folder,
-          active: activeDestination == Destinations.backlog,
+          active: activeDestination == RouteGenerator.backlogPage,
           onPressed: () {
-            print("Go to 'Backlog'!");
+            Navigator.of(context)?.pushNamed(RouteGenerator.backlogPage);
           },
         ),
         Destination(
           label: "Calendar",
           icon: Icons.calendar_today_outlined,
-          active: activeDestination == Destinations.calendar,
+          active: activeDestination == RouteGenerator.calendarPage,
           onPressed: () {
-            print("Go to 'Calendar'!");
+            Navigator.of(context)?.pushNamed(RouteGenerator.calendarPage);
           },
         ),
         Destination(
           label: "Reminders",
           icon: Icons.notifications,
-          active: activeDestination == Destinations.reminders,
+          active: activeDestination == RouteGenerator.remindersPage,
           onPressed: () {
-            print("Go to 'Reminders'!");
+            Navigator.of(context)?.pushNamed(RouteGenerator.remindersPage);
           },
         ),
       ],
@@ -176,7 +175,7 @@ void main() {
   runApp(
     TestBench(
       child: SuccedoNavigationRail(
-        activeDestination: Destinations.agenda,
+        activeDestination: RouteGenerator.agendaPage,
         body: Text("<Agenda page placeholder>"),
       ),
     ),
