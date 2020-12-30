@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() {
+void main(List<String> arguments) {
+  print("App started.");
+  print("First argument: ${arguments[0]}");
   runApp(MyApp());
 }
 
