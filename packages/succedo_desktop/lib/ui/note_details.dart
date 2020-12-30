@@ -48,6 +48,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   border: const OutlineInputBorder(),
                 ),
                 onChanged: (value) {
+                  widget.note.details = value;
                   setState(() {});
                 },
               ),
@@ -103,9 +104,6 @@ class _NoteTitleState extends State<_NoteTitle> {
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
           ),
-          // onEditingComplete: () {
-          //
-          // },
           onSubmitted: (value) {
             if (value.trim().isNotEmpty) {
               widget.note.title = value;

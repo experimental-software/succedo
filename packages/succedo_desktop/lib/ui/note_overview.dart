@@ -73,7 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                       context,
                       DesktopPageRoute(builder: (context) => NoteDetails(noteRepository.findNote(key)!)),
-                    );
+                    ).then((value) {
+                      _nodes = _toNodes(noteRepository.getAllNotes());
+                      setState(() {
+                        _treeViewController = TreeViewController(children: _nodes);
+                      });
+                    });
                   } else {
                     setState(() {
                       _treeViewController = _treeViewController.copyWith(selectedKey: key);
