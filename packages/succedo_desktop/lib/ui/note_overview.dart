@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_treeview/tree_view.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
+import 'package:succedo_desktop/routing.dart';
 import 'package:succedo_desktop/ui/create_note_dialog.dart';
+import 'package:succedo_desktop/ui/note_details.dart';
 import 'package:uuid/uuid.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -66,13 +68,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 controller: _treeViewController,
                 allowParentSelect: true,
                 supportParentDoubleTap: false,
-                //onExpansionChanged: _expandNodeHandler,
                 onNodeTap: (key) {
-                  setState(() {
-                    _treeViewController = _treeViewController.copyWith(selectedKey: key);
-                  });
+                  if (key == _treeViewController.selectedKey) {
+                    Navigator.push(
+                      context,
+                      DesktopPageRoute(builder: (context) => NoteDetails(noteRepository.findNote(key)!)),
+                    );
+                  } else {
+                    setState(() {
+                      _treeViewController = _treeViewController.copyWith(selectedKey: key);
+                    });
+                  }
+
                 },
-                //theme: _treeViewTheme,
               ),
             ),
           ],

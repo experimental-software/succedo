@@ -9,11 +9,23 @@ class NoteRepository {
   }
 
   Note? findNote(String id) {
-    var match = _notes.where((note) => note.id == id);
-    if (match.isEmpty) {
-      return null;
+    Map<String, Note> noteIndex = {};
+    _index(noteIndex, _notes);
+
+    if (noteIndex.containsKey(id)) {
+      return noteIndex[id];
     } else {
-      return match.first;
+      return null;
+    }
+  }
+
+  void _index(Map<String, Note> noteIndex, List<Note> notes) {
+    for (var note in _notes) {
+      noteIndex.putIfAbsent(note.id, () => note);
+      if (note.children.isNotEmpty) {
+        _index(noteIndex, note.children);
+      }
+
     }
   }
 }
