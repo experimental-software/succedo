@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:succedo_desktop/core/note.dart';
 
 class NoteDetails extends StatefulWidget {
-
   final Note note;
 
   NoteDetails(this.note);
@@ -22,7 +21,10 @@ class _NoteDetailsState extends State<NoteDetails> {
         title: Text(widget.note.title),
       ),
       body: Center(
-        child: Text(widget.note.description ?? ""),
+        child: Markdown(
+          data: widget.note.description ?? "",
+          selectable: true,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => print("add note!"),

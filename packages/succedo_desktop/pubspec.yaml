@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   flutter_treeview: ^0.6.0+1
   uuid: ^2.2.2
+  flutter_markdown: ^0.5.1
 
 dev_dependencies:
   flutter_test:

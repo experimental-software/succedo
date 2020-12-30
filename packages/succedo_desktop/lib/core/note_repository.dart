@@ -20,12 +20,11 @@ class NoteRepository {
   }
 
   void _index(Map<String, Note> noteIndex, List<Note> notes) {
-    for (var note in _notes) {
+    for (var note in notes) {
       noteIndex.putIfAbsent(note.id, () => note);
       if (note.children.isNotEmpty) {
         _index(noteIndex, note.children);
       }
-
     }
   }
 }
