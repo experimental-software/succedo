@@ -79,7 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       _treeViewController = _treeViewController.copyWith(selectedKey: key);
                     });
                   }
-
                 },
               ),
             ),

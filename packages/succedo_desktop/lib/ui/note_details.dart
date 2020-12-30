@@ -17,7 +17,7 @@ class _NoteDetailsState extends State<NoteDetails> {
   @override
   void initState() {
     super.initState();
-    
+
     var noteDetails = widget.note.details;
     if (noteDetails != null) {
       descriptionController.text = noteDetails;
@@ -44,17 +44,20 @@ class _NoteDetailsState extends State<NoteDetails> {
               child: TextField(
                 controller: descriptionController,
                 maxLines: 100,
-                //minLines: 10,
                 decoration: InputDecoration(
-                  //labelText: "Description",
                   border: const OutlineInputBorder(),
                 ),
+                onChanged: (value) {
+                  setState(() {
+
+                  });
+                },
               ),
             ),
             Container(
               padding: const EdgeInsets.all(8),
               child: Markdown(
-                data: widget.note.details ?? "",
+                data: descriptionController.text,
                 selectable: true,
               ),
               //color: Colors.teal[200],
