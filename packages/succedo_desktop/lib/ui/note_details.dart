@@ -81,13 +81,51 @@ class _NoteTitle extends StatefulWidget {
 }
 
 class _NoteTitleState extends State<_NoteTitle> {
+
+  final titleController = TextEditingController();
+
+  bool editMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    titleController.text = widget.note.title;
+  }
+
   @override
   Widget build(BuildContext context) {
-    assert(debugCheckHasMaterial(context));
-
-    return InkWell(
-      child: Text(widget.note.title),
-      onTap: () => print("tapped!"),
-    );
+    if (editMode) {
+      return Container(
+        color: Colors.white,
+        child: TextField(
+          controller: titleController,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+          ),
+          // onEditingComplete: () {
+          //
+          // },
+          onSubmitted: (value) {
+            if (value.trim().isNotEmpty) {
+              widget.note.title = value;
+            }
+            setState(() {
+              editMode = false;
+            });
+          },
+        ),
+      );
+    } else {
+      assert(debugCheckHasMaterial(context));
+      return InkWell(
+        child: Text(widget.note.title),
+        onTap: () {
+          setState(() {
+            editMode = true;
+          });
+        },
+      );
+    }
   }
 }
