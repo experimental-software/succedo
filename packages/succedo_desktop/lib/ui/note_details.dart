@@ -36,8 +36,12 @@ class _NoteDetailsState extends State<NoteDetails> {
             ),
             Container(
               padding: const EdgeInsets.all(8),
-              child: const Text('Heed not the rabble'),
-              color: Colors.teal[200],
+              child: Markdown(
+                data: widget.note.description ?? "",
+                selectable: true,
+              ),
+              //color: Colors.teal[200],
+
             ),
           ],
         ),
