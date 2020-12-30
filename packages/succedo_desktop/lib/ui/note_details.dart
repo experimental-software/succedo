@@ -21,9 +21,12 @@ class _NoteDetailsState extends State<NoteDetails> {
         title: Text(widget.note.title),
       ),
       body: Center(
-        child: Markdown(
-          data: widget.note.description ?? "",
-          selectable: true,
+        child: Container(
+          height: 300,
+          child: Markdown(
+            data: widget.note.description ?? "",
+            selectable: true,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
