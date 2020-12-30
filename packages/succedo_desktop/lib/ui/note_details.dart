@@ -20,13 +20,26 @@ class _NoteDetailsState extends State<NoteDetails> {
       appBar: AppBar(
         title: Text(widget.note.title),
       ),
-      body: Center(
-        child: Container(
-          height: 300,
-          child: Markdown(
-            data: widget.note.description ?? "",
-            selectable: true,
-          ),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: GridView.count(
+          primary: false,
+          padding: const EdgeInsets.all(20),
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          crossAxisCount: 2,
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text("He'd have you all unravel at the"),
+              color: Colors.teal[100],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Heed not the rabble'),
+              color: Colors.teal[200],
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
