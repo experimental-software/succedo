@@ -21,36 +21,27 @@ class _MyHomePageState extends State<MyHomePage> {
   NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
 
   late TreeViewController _treeViewController;
-  late List<Node> _nodes;
 
   @override
   void initState() {
     super.initState();
 
-    _nodes = _toNodes(noteRepository.getAllNotes());
-    _treeViewController = TreeViewController(children: _nodes);
+    _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
   }
 
   void _addNote() async {
-    Note? result = await showDialog(
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return CreateNoteDialog(
-          onDialogClose: (result) => Navigator.pop(context, result),
+          onDialogClose: () => Navigator.pop(context),
         );
       },
     );
 
-    if (result != null) {
-      var node = _toNode(Note(
-        id: Uuid().v4(),
-        title: result.title,
-        details: result.details,
-      ));
-      setState(() {
-        _treeViewController.children.add(node);
-      });
-    }
+    setState(() {
+      _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
+    });
   }
 
   @override
@@ -83,9 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         return NoteDetails(note);
                       }),
                     ).then((value) {
-                      _nodes = _toNodes(noteRepository.getAllNotes());
                       setState(() {
-                        _treeViewController = TreeViewController(children: _nodes);
+                        _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
                       });
                     });
                   } else {
@@ -120,13 +110,4 @@ List<Node> _toNodes(List<Note> notes) {
     result.add(node);
   }
   return result;
-}
-
-Node _toNode(Note note) {
-  return Node(
-    key: note.id,
-    label: note.title,
-    icon: NodeIcon.fromIconData(Icons.build),
-    children: _toNodes(note.children),
-  );
 }

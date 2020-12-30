@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:succedo_desktop/core/note.dart';
+import 'package:succedo_desktop/ui/create_note_dialog.dart';
 
 class NoteDetails extends StatefulWidget {
   final Note note;
@@ -64,10 +65,21 @@ class _NoteDetailsState extends State<NoteDetails> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print("add note!"),
+        onPressed: _addNote,
         tooltip: 'Add note',
         child: Icon(Icons.add),
       ),
+    );
+  }
+
+  void _addNote() async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CreateNoteDialog(
+          onDialogClose: () => Navigator.pop(context),
+        );
+      },
     );
   }
 }

@@ -99,13 +99,13 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
           details: detailsController.text,
         );
         noteRepository.add(note);
-        widget.onDialogClose(note);
+        widget.onDialogClose();
       }
     }
   }
 
   void cancel() {
-    widget.onDialogClose(null);
+    widget.onDialogClose();
   }
 }
 
