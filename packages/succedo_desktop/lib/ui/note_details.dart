@@ -28,7 +28,7 @@ class _NoteDetailsState extends State<NoteDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.note.title),
+        title: _NoteTitle(widget.note),
       ),
       body: Align(
         alignment: Alignment.topCenter,
@@ -48,9 +48,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   border: const OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  setState(() {
-
-                  });
+                  setState(() {});
                 },
               ),
             ),
@@ -60,8 +58,6 @@ class _NoteDetailsState extends State<NoteDetails> {
                 data: descriptionController.text,
                 selectable: true,
               ),
-              //color: Colors.teal[200],
-
             ),
           ],
         ),
@@ -71,6 +67,27 @@ class _NoteDetailsState extends State<NoteDetails> {
         tooltip: 'Add note',
         child: Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class _NoteTitle extends StatefulWidget {
+  final Note note;
+
+  _NoteTitle(this.note);
+
+  @override
+  _NoteTitleState createState() => _NoteTitleState();
+}
+
+class _NoteTitleState extends State<_NoteTitle> {
+  @override
+  Widget build(BuildContext context) {
+    assert(debugCheckHasMaterial(context));
+
+    return InkWell(
+      child: Text(widget.note.title),
+      onTap: () => print("tapped!"),
     );
   }
 }
