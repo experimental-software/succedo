@@ -93,7 +93,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
         var note = Note(
           id: Uuid().v4(),
           title: titleController.text,
-          description: descriptionController.text,
+          details: descriptionController.text,
         );
         widget.onDialogClose(note);
       }

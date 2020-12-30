@@ -15,6 +15,16 @@ class _NoteDetailsState extends State<NoteDetails> {
   final descriptionController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    
+    var noteDetails = widget.note.details;
+    if (noteDetails != null) {
+      descriptionController.text = noteDetails;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +54,7 @@ class _NoteDetailsState extends State<NoteDetails> {
             Container(
               padding: const EdgeInsets.all(8),
               child: Markdown(
-                data: widget.note.description ?? "",
+                data: widget.note.details ?? "",
                 selectable: true,
               ),
               //color: Colors.teal[200],

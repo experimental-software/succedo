@@ -1,14 +1,14 @@
 class Note {
   String id;
   String title;
-  String? description;
+  String? details;
   String? icon;
   List<Note> children;
 
   Note({
     required this.id,
     required this.title,
-    this.description = """
+    this.details = """
 # Hypothesis
 
 Something will happen.

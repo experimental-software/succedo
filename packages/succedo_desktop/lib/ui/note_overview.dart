@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var node = _toNode(Note(
         id: Uuid().v4(),
         title: result.title,
-        description: result.description,
+        details: result.details,
       ));
       setState(() {
         _treeViewController.children.add(node);
