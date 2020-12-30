@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:succedo_desktop/core/note.dart';
+import 'package:succedo_desktop/core/note_repository.dart';
 import 'package:succedo_desktop/util/test_bench.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,7 +17,8 @@ class CreateNoteDialog extends StatefulWidget {
 class _CreateNoteDialogState extends State<CreateNoteDialog> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController detailsController = TextEditingController();
+  final NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                     height: 10,
                   ),
                   TextFormField(
-                    controller: descriptionController,
+                    controller: detailsController,
                     maxLines: 10,
                     decoration: InputDecoration(
                       labelText: "Description",
@@ -93,8 +96,9 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
         var note = Note(
           id: Uuid().v4(),
           title: titleController.text,
-          details: descriptionController.text,
+          details: detailsController.text,
         );
+        noteRepository.add(note);
         widget.onDialogClose(note);
       }
     }

@@ -6,6 +6,7 @@ import 'package:succedo_desktop/routing.dart';
 import 'package:succedo_desktop/ui/create_note_dialog.dart';
 import 'package:succedo_desktop/ui/note_details.dart';
 import 'package:uuid/uuid.dart';
+import 'package:get_it/get_it.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({required this.title});
@@ -17,7 +18,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  NoteRepository noteRepository = NoteRepository();
+  NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
 
   late TreeViewController _treeViewController;
   late List<Node> _nodes;
@@ -70,9 +71,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 supportParentDoubleTap: false,
                 onNodeTap: (key) {
                   if (key == _treeViewController.selectedKey) {
+                    var note = noteRepository.findNote(key);
+                    if (note == null) {
+                      // TODO: An alert dialog would be nice here.
+                      print("[WARNING] Note '$key' not found.");
+                      return;
+                    }
                     Navigator.push(
                       context,
-                      DesktopPageRoute(builder: (context) => NoteDetails(noteRepository.findNote(key)!)),
+                      DesktopPageRoute(builder: (context) {
+                        return NoteDetails(note);
+                      }),
                     ).then((value) {
                       _nodes = _toNodes(noteRepository.getAllNotes());
                       setState(() {

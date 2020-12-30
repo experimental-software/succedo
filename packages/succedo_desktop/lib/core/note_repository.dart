@@ -19,6 +19,10 @@ class NoteRepository {
     }
   }
 
+  void add(Note note) {
+    _notes.add(note);
+  }
+
   void _index(Map<String, Note> noteIndex, List<Note> notes) {
     for (var note in notes) {
       noteIndex.putIfAbsent(note.id, () => note);
