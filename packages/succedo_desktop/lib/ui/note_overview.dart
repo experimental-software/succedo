@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_treeview/tree_view.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
+import 'package:succedo_desktop/ui/create_note_dialog.dart';
 import 'package:uuid/uuid.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -31,13 +32,22 @@ class _MyHomePageState extends State<MyHomePage> {
     Note? result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Container();
+        return CreateNoteDialog(
+          onDialogClose: (result) => Navigator.pop(context, result),
+        );
       },
     );
 
-    setState(() {
-      _treeViewController.children.add(_toNode(Note(id: Uuid().v4(), title: "Hello")));
-    });
+    if (result != null) {
+      var node = _toNode(Note(
+        id: Uuid().v4(),
+        title: result.title,
+        description: result.description,
+      ));
+      setState(() {
+        _treeViewController.children.add(node);
+      });
+    }
   }
 
   @override

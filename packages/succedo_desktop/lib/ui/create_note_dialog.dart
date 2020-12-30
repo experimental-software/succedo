@@ -1,1 +1,116 @@
+import 'package:flutter/material.dart';
+import 'package:succedo_desktop/core/note.dart';
+import 'package:succedo_desktop/util/test_bench.dart';
+import 'package:uuid/uuid.dart';
 
+class CreateNoteDialog extends StatefulWidget {
+  final Function onDialogClose;
+
+  CreateNoteDialog({required this.onDialogClose});
+
+  @override
+  _CreateNoteDialogState createState() => _CreateNoteDialogState();
+}
+
+class _CreateNoteDialogState extends State<CreateNoteDialog> {
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: Text("Create note"),
+      children: <Widget>[
+        ConstrainedBox(
+          constraints: BoxConstraints.tight(Size(800, 400)),
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: titleController,
+                    autofocus: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "The note title must not be empty.";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Title*",
+                      border: const OutlineInputBorder(),
+                      helperText: "* Required",
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: descriptionController,
+                    maxLines: 10,
+                    decoration: InputDecoration(
+                      labelText: "Description",
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      RaisedButton(
+                        child: Text("Cancel"),
+                        onPressed: cancel,
+                      ),
+                      SizedBox(width: 10),
+                      RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        child: Text(
+                          "Save",
+                          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                        ),
+                        onPressed: save,
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void save() {
+    var currentState = formKey.currentState;
+    if (currentState != null) {
+      if (currentState.validate()) {
+        var note = Note(
+          id: Uuid().v4(),
+          title: titleController.text,
+          description: descriptionController.text,
+        );
+        widget.onDialogClose(note);
+      }
+    }
+  }
+
+  void cancel() {
+    widget.onDialogClose(null);
+  }
+}
+
+void main() {
+  runApp(
+    TestBench(
+      child: CreateNoteDialog(
+        onDialogClose: (note) => print(note),
+      ),
+    ),
+  );
+}
