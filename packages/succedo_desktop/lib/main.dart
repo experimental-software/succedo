@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:succedo_desktop/pages/note_overview.dart';
+import 'package:succedo_desktop/ui/note_overview.dart';
 
 void main(List<String> arguments) {
   runApp(MyApp());

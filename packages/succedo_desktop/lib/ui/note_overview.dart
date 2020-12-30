@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_treeview/tree_view.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({required this.title});
@@ -24,12 +25,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _nodes = _toNodes(noteRepository.getAllNotes());
     _treeViewController = TreeViewController(children: _nodes);
-
   }
 
-  void _incrementCounter() {
+  void _addNote() async {
+    Note? result = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Container();
+      },
+    );
+
     setState(() {
-      //_treeViewController = _treeViewController.copyWith(selectedKey: "d3");
+      _treeViewController.children.add(_toNode(Note(id: Uuid().v4(), title: "Hello")));
     });
   }
 
@@ -62,8 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _addNote,
+        tooltip: 'Add note',
         child: Icon(Icons.add),
       ),
     );
@@ -82,4 +89,13 @@ List<Node> _toNodes(List<Note> notes) {
     result.add(node);
   }
   return result;
+}
+
+Node _toNode(Note note) {
+  return Node(
+    key: note.id,
+    label: note.title,
+    icon: NodeIcon.fromIconData(Icons.build),
+    children: _toNodes(note.children),
+  );
 }
