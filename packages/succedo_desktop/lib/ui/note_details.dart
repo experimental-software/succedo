@@ -31,8 +31,15 @@ class _NoteDetailsState extends State<NoteDetails> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(8),
-              child: const Text("He'd have you all unravel at the"),
-              color: Colors.teal[100],
+              child: TextField(
+                controller: descriptionController,
+                maxLines: 100,
+                //minLines: 10,
+                decoration: InputDecoration(
+                  //labelText: "Description",
+                  border: const OutlineInputBorder(),
+                ),
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(8),
