@@ -5,7 +5,6 @@ import 'package:succedo_desktop/core/note_repository.dart';
 import 'package:succedo_desktop/routing.dart';
 import 'package:succedo_desktop/ui/create_note_dialog.dart';
 import 'package:succedo_desktop/ui/note_details.dart';
-import 'package:uuid/uuid.dart';
 import 'package:get_it/get_it.dart';
 
 class MyHomePage extends StatefulWidget {
