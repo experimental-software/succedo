@@ -74,8 +74,7 @@ class _NoteOverviewState extends State<NoteOverview> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                height: 500,
+              Expanded(
                 child: TreeView(
                   controller: treeViewController,
                   allowParentSelect: true,
