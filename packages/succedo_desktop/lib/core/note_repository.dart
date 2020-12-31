@@ -39,6 +39,10 @@ class NoteRepository {
       }
     }
   }
+
+  void setParent(Note children, String id) {
+
+  }
 }
 
 List<Note> _dummyNotes() {
