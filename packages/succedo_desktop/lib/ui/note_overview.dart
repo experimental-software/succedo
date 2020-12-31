@@ -6,19 +6,18 @@ import 'package:succedo_desktop/core/note_repository.dart';
 import 'package:succedo_desktop/routing.dart';
 import 'package:succedo_desktop/ui/create_note_dialog.dart';
 import 'package:succedo_desktop/ui/note_details.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:open_url/open_url.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({required this.title});
+class NoteOverview extends StatefulWidget {
+  NoteOverview({required this.title});
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _NoteOverviewState createState() => _NoteOverviewState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _NoteOverviewState extends State<NoteOverview> {
   NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
   FocusNode keyboardFocus = FocusNode();
   Note? noteInTray;
