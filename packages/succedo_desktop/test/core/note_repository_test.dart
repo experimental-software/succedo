@@ -20,8 +20,8 @@ void main() {
     expect(thirdNote.children.length, equals(0));
     var noteToBeMoved = firstNote.children[0];
 
-    noteRepository.removeFromParent(noteToBeMoved);
-    noteRepository.setParent(noteToBeMoved, thirdNote.id);
+    noteRepository.remove(noteToBeMoved);
+    noteRepository.registerChild(noteToBeMoved, thirdNote.id);
 
     expect(thirdNote.children.length, equals(1));
     expect(firstNote.children.length, equals(0));

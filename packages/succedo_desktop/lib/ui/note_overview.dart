@@ -122,19 +122,19 @@ class _MyHomePageState extends State<MyHomePage> {
       
       if (event.isControlPressed && event.character == "x") {
         noteInTray = selectedNote;
-        noteRepository.removeFromParent(selectedNote);
+        noteRepository.remove(selectedNote);
         updateTreeView();
         return;
       }
       if (event.isControlPressed && event.character == "v" && noteInTray != null) {
-        noteRepository.setParent(noteInTray!, selectedNote.id);
+        noteRepository.registerChild(noteInTray!, selectedNote.id);
         noteInTray = null;
         updateTreeView();
         return;
       }
     } else {
       if (event.isControlPressed && event.character == "v" && noteInTray != null) {
-        noteRepository.setParent(noteInTray!, null);
+        noteRepository.registerChild(noteInTray!, null);
         noteInTray = null;
         updateTreeView();
         return;
