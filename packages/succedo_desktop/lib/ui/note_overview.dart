@@ -71,7 +71,7 @@ class _NoteOverviewState extends State<NoteOverview> {
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
                 height: 500,
