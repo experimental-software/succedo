@@ -62,5 +62,14 @@ Ever tried, even failed, no better. Try again, fail again, fail better.
     """,
     this.icon,
     this.children = const [],
-  });
+  }) {
+    if (children.isEmpty) {
+      // Replace the empty "const" list with a modifiable list.
+      children = [];
+    }
+  }
+
+  bool removeChild(Note note) {
+    return children.remove(note);
+  }
 }
