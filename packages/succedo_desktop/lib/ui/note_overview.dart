@@ -6,6 +6,8 @@ import 'package:succedo_desktop/core/note_repository.dart';
 import 'package:succedo_desktop/routing.dart';
 import 'package:succedo_desktop/ui/create_note_dialog.dart';
 import 'package:succedo_desktop/ui/note_details.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:open_url/open_url.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({required this.title});
@@ -104,6 +106,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
               ),
+              InkWell(
+                child: Text("Feedback"),
+                onTap: () => openUrl("https://github.com/experimental-software/succedo/issues/new"),
+              )
             ],
           ),
         ),
