@@ -2,18 +2,22 @@ import 'package:succedo_desktop/core/note.dart';
 import 'package:uuid/uuid.dart';
 
 class NoteRepository {
-  List<Note> _notes = _dummyNotes();
+  late List<Note> _notes;
+  late Map<String, Note> _noteIndex;
+
+  NoteRepository() {
+    _notes = _dummyNotes();
+    _noteIndex = {};
+    _index(_noteIndex, _notes);
+  }
 
   List<Note> getAllNotes() {
-    return _notes;
+    return List.unmodifiable(_notes);
   }
 
   Note? findNote(String id) {
-    Map<String, Note> noteIndex = {};
-    _index(noteIndex, _notes);
-
-    if (noteIndex.containsKey(id)) {
-      return noteIndex[id];
+    if (_noteIndex.containsKey(id)) {
+      return _noteIndex[id];
     } else {
       return null;
     }
@@ -21,6 +25,10 @@ class NoteRepository {
 
   void add(Note note) {
     _notes.add(note);
+    if (_noteIndex.containsKey(note.id)) {
+      _noteIndex.remove(note.id);
+    }
+    _noteIndex.putIfAbsent(note.id, () => note);
   }
 
   void _index(Map<String, Note> noteIndex, List<Note> notes) {

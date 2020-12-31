@@ -1,13 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_treeview/tree_view.dart';
+import 'package:get_it/get_it.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
 import 'package:succedo_desktop/routing.dart';
 import 'package:succedo_desktop/ui/create_note_dialog.dart';
 import 'package:succedo_desktop/ui/note_details.dart';
-import 'package:get_it/get_it.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({required this.title});
@@ -22,12 +20,12 @@ class _MyHomePageState extends State<MyHomePage> {
   NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
   FocusNode keyboardFocus = FocusNode();
 
-  late TreeViewController _treeViewController;
+  late TreeViewController treeViewController;
 
   @override
   void initState() {
     super.initState();
-    _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
+    treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
   }
 
   @override
@@ -49,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     keyboardFocus.requestFocus();
 
     setState(() {
-      _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
+      treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
     });
   }
 
@@ -59,12 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return RawKeyboardListener(
       focusNode: keyboardFocus,
       autofocus: true,
-      onKey: (event) {
-        var character = event.character;
-        if (character != null) {
-          print("Key pressed: $character");
-        }
-      },
+      onKey: handleKeyPressed,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -76,11 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 height: 500,
                 child: TreeView(
-                  controller: _treeViewController,
+                  controller: treeViewController,
                   allowParentSelect: true,
                   supportParentDoubleTap: false,
                   onNodeTap: (key) {
-                    if (key == _treeViewController.selectedKey) {
+                    if (key == treeViewController.selectedKey) {
                       var note = noteRepository.findNote(key);
                       if (note == null) {
                         // TODO: An alert dialog would be nice here.
@@ -96,12 +89,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       ).then((_) {
                         keyboardFocus.requestFocus();
                         setState(() {
-                          _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
+                          treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
                         });
                       });
                     } else {
                       setState(() {
-                        _treeViewController = _treeViewController.copyWith(selectedKey: key);
+                        treeViewController = treeViewController.copyWith(selectedKey: key);
                       });
                     }
                   },
@@ -117,6 +110,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void handleKeyPressed(event) {
+    var selectedKey = treeViewController.selectedKey;
+    if (selectedKey != null) {
+      var selectedNote = noteRepository.findNote(selectedKey);
+
+    }
+    var character = event.character;
+    if (character != null) {
+      print("Key pressed: $character");
+    }
   }
 }
 
