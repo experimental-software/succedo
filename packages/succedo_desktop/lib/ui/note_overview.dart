@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_treeview/tree_view.dart';
 import 'package:succedo_desktop/core/note.dart';
@@ -18,17 +20,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
+  FocusNode keyboardFocus = FocusNode();
 
   late TreeViewController _treeViewController;
 
   @override
   void initState() {
     super.initState();
-
     _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
   }
 
+  @override
+  void dispose() {
+    keyboardFocus.dispose();
+    super.dispose();
+  }
+
   void _addNote() async {
+    keyboardFocus.unfocus();
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -37,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+    keyboardFocus.requestFocus();
 
     setState(() {
       _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
@@ -45,53 +55,66 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              height: 500,
-              child: TreeView(
-                controller: _treeViewController,
-                allowParentSelect: true,
-                supportParentDoubleTap: false,
-                onNodeTap: (key) {
-                  if (key == _treeViewController.selectedKey) {
-                    var note = noteRepository.findNote(key);
-                    if (note == null) {
-                      // TODO: An alert dialog would be nice here.
-                      print("[WARNING] Note '$key' not found.");
-                      return;
-                    }
-                    Navigator.push(
-                      context,
-                      DesktopPageRoute(builder: (context) {
-                        return NoteDetails(note);
-                      }),
-                    ).then((value) {
-                      setState(() {
-                        _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
-                      });
-                    });
-                  } else {
-                    setState(() {
-                      _treeViewController = _treeViewController.copyWith(selectedKey: key);
-                    });
-                  }
-                },
-              ),
-            ),
-          ],
+    keyboardFocus.requestFocus();
+    return RawKeyboardListener(
+      focusNode: keyboardFocus,
+      autofocus: true,
+      onKey: (event) {
+        var character = event.character;
+        if (character != null) {
+          print("Key pressed: $character");
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addNote,
-        tooltip: 'Add note',
-        child: Icon(Icons.add),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: 500,
+                child: TreeView(
+                  controller: _treeViewController,
+                  allowParentSelect: true,
+                  supportParentDoubleTap: false,
+                  onNodeTap: (key) {
+                    if (key == _treeViewController.selectedKey) {
+                      var note = noteRepository.findNote(key);
+                      if (note == null) {
+                        // TODO: An alert dialog would be nice here.
+                        print("[WARNING] Note '$key' not found.");
+                        return;
+                      }
+                      keyboardFocus.unfocus();
+                      Navigator.push(
+                        context,
+                        DesktopPageRoute(builder: (context) {
+                          return NoteDetails(note);
+                        }),
+                      ).then((_) {
+                        keyboardFocus.requestFocus();
+                        setState(() {
+                          _treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
+                        });
+                      });
+                    } else {
+                      setState(() {
+                        _treeViewController = _treeViewController.copyWith(selectedKey: key);
+                      });
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _addNote,
+          tooltip: 'Add note',
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
