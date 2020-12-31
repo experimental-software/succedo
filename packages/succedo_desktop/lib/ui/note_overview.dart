@@ -72,6 +72,7 @@ class _NoteOverviewState extends State<NoteOverview> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
                 height: 500,
@@ -105,9 +106,13 @@ class _NoteOverviewState extends State<NoteOverview> {
                   },
                 ),
               ),
-              InkWell(
-                child: Text("Feedback"),
-                onTap: () => openUrl("https://github.com/experimental-software/succedo/issues/new"),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  child: Text("Feedback"),
+                  onTap: () => openUrl("https://github.com/experimental-software/succedo/issues/new"),
+                ),
               )
             ],
           ),
