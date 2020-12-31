@@ -44,16 +44,21 @@ class NoteRepository {
     for (var i in _noteIndex.keys) {
       var n = _noteIndex[i]!;
       bool hasRemovedChild = n.removeChild(note);
-      if (hasRemovedChild) break;
+      if (hasRemovedChild) return;
     }
+    _notes.remove(note);
   }
 
-  void setParent(Note noteToBeMoved, String parentId) {
-    var parentNote = _noteIndex[parentId];
-    if (parentNote == null) {
-      throw "Could not find parent task $parentId";
+  void setParent(Note noteToBeMoved, String? parentId) {
+    if (parentId == null) {
+      _notes.add(noteToBeMoved);
+    } else {
+      var parentNote = _noteIndex[parentId];
+      if (parentNote == null) {
+        throw "Could not find parent task $parentId";
+      }
+      parentNote.children.add(noteToBeMoved);
     }
-    parentNote.children.add(noteToBeMoved);
   }
 }
 

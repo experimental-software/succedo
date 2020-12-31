@@ -19,7 +19,7 @@ void main() {
     var thirdNote = noteRepository.getAllNotes()[2];
     expect(thirdNote.children.length, equals(0));
     var noteToBeMoved = firstNote.children[0];
-    
+
     noteRepository.removeFromParent(noteToBeMoved);
     noteRepository.setParent(noteToBeMoved, thirdNote.id);
 

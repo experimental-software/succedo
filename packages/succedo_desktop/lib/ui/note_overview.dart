@@ -19,6 +19,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
   FocusNode keyboardFocus = FocusNode();
+  Note? noteInTray;
 
   late TreeViewController treeViewController;
 
@@ -46,9 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     keyboardFocus.requestFocus();
 
-    setState(() {
-      treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
-    });
+    updateTreeView();
   }
 
   @override
@@ -88,9 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         }),
                       ).then((_) {
                         keyboardFocus.requestFocus();
-                        setState(() {
-                          treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
-                        });
+                        updateTreeView();
                       });
                     } else {
                       setState(() {
@@ -112,15 +109,36 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void handleKeyPressed(event) {
+  void updateTreeView() {
+    setState(() {
+      treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
+    });
+  }
+
+  void handleKeyPressed(RawKeyEvent event) {
     var selectedKey = treeViewController.selectedKey;
     if (selectedKey != null) {
-      var selectedNote = noteRepository.findNote(selectedKey);
-
-    }
-    var character = event.character;
-    if (character != null) {
-      print("Key pressed: $character");
+      var selectedNote = noteRepository.findNote(selectedKey)!;
+      
+      if (event.isControlPressed && event.character == "x") {
+        noteInTray = selectedNote;
+        noteRepository.removeFromParent(selectedNote);
+        updateTreeView();
+        return;
+      }
+      if (event.isControlPressed && event.character == "v" && noteInTray != null) {
+        noteRepository.setParent(noteInTray!, selectedNote.id);
+        noteInTray = null;
+        updateTreeView();
+        return;
+      }
+    } else {
+      if (event.isControlPressed && event.character == "v" && noteInTray != null) {
+        noteRepository.setParent(noteInTray!, null);
+        noteInTray = null;
+        updateTreeView();
+        return;
+      }
     }
   }
 }
