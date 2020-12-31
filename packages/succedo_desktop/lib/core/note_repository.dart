@@ -39,16 +39,19 @@ class NoteRepository {
       }
     }
   }
+  
+  void removeFromParent(Note note) {
+    for (var i in _noteIndex.keys) {
+      var n = _noteIndex[i]!;
+      bool hasRemovedChild = n.removeChild(note);
+      if (hasRemovedChild) break;
+    }
+  }
 
   void setParent(Note noteToBeMoved, String parentId) {
     var parentNote = _noteIndex[parentId];
     if (parentNote == null) {
       throw "Could not find parent task $parentId";
-    }
-    for (var i in _noteIndex.keys) {
-      var n = _noteIndex[i]!;
-      bool hasRemovedChild = n.removeChild(noteToBeMoved);
-      if (hasRemovedChild) break;
     }
     parentNote.children.add(noteToBeMoved);
   }
