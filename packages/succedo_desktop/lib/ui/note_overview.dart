@@ -36,11 +36,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addNote() async {
+    Note? parent;
+    var selectedKey = treeViewController.selectedKey;
+    if (selectedKey != null) {
+      parent = noteRepository.findNote(selectedKey)!;
+    }
+
     keyboardFocus.unfocus();
     await showDialog(
       context: context,
       builder: (BuildContext context) {
         return CreateNoteDialog(
+          parent: parent,
           onDialogClose: () => Navigator.pop(context),
         );
       },

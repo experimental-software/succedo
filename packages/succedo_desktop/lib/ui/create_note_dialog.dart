@@ -7,8 +7,9 @@ import 'package:uuid/uuid.dart';
 
 class CreateNoteDialog extends StatefulWidget {
   final Function onDialogClose;
+  final Note? parent;
 
-  CreateNoteDialog({required this.onDialogClose});
+  CreateNoteDialog({required this.onDialogClose, this.parent});
 
   @override
   _CreateNoteDialogState createState() => _CreateNoteDialogState();
@@ -98,7 +99,11 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
           title: titleController.text,
           details: detailsController.text,
         );
-        noteRepository.add(note);
+        if (widget.parent != null) {
+          noteRepository.registerChild(note, widget.parent!.id);
+        } else {
+          noteRepository.add(note);
+        }
         widget.onDialogClose();
       }
     }

@@ -50,6 +50,7 @@ class NoteRepository {
   }
 
   void registerChild(Note childNote, String? parentId) {
+    _noteIndex.putIfAbsent(childNote.id, () => childNote);
     if (parentId == null) {
       _notes.add(childNote);
     } else {
