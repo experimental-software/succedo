@@ -4,8 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
 import 'package:succedo_desktop/routing.dart';
-import 'package:succedo_desktop/ui/create_note_dialog.dart';
-import 'package:succedo_desktop/ui/note_details.dart';
+import 'package:succedo_desktop/screens/create_note_dialog.dart';
+import 'package:succedo_desktop/screens/note_details.dart';
 import 'package:open_url/open_url.dart';
 
 class NoteOverview extends StatefulWidget {

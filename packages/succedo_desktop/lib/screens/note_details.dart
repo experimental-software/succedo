@@ -3,7 +3,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get_it/get_it.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
-import 'package:succedo_desktop/ui/create_note_dialog.dart';
+import 'package:succedo_desktop/screens/create_note_dialog.dart';
+
+import '../widgets/editable_title.dart';
 
 class NoteDetails extends StatefulWidget {
   final Note note;
@@ -31,7 +33,10 @@ class _NoteDetailsState extends State<NoteDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _NoteTitle(widget.note),
+        title: EditableTitle(
+          initialTitle: widget.note.title,
+          onTitleChanged: (newTitle) => widget.note.title = newTitle,
+        ),
       ),
       body: Align(
         alignment: Alignment.topCenter,
@@ -115,60 +120,5 @@ class _ActionButtons extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _NoteTitle extends StatefulWidget {
-  final Note note;
-
-  _NoteTitle(this.note);
-
-  @override
-  _NoteTitleState createState() => _NoteTitleState();
-}
-
-class _NoteTitleState extends State<_NoteTitle> {
-  final titleController = TextEditingController();
-
-  bool editMode = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    titleController.text = widget.note.title;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (editMode) {
-      return Container(
-        color: Colors.white,
-        child: TextField(
-          controller: titleController,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-          ),
-          onSubmitted: (value) {
-            if (value.trim().isNotEmpty) {
-              widget.note.title = value;
-            }
-            setState(() {
-              editMode = false;
-            });
-          },
-        ),
-      );
-    } else {
-      assert(debugCheckHasMaterial(context));
-      return InkWell(
-        child: Text(widget.note.title),
-        onTap: () {
-          setState(() {
-            editMode = true;
-          });
-        },
-      );
-    }
   }
 }

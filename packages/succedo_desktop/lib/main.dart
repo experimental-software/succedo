@@ -1,7 +1,7 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
-import 'package:succedo_desktop/ui/note_overview.dart';
+import 'package:succedo_desktop/screens/note_overview.dart';
 import 'package:get_it/get_it.dart';
 
 void main(List<String> arguments) {
