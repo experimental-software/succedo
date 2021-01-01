@@ -27,6 +27,9 @@ class Project {
   Project.load({required this.path}) {
     notes = NoteRepository.empty();
     var file = _buildFile(path);
+    if (!file.existsSync()) {
+      throw "File with path ${file.absolute.path} does not exist.";
+    }
     var fileContents = file.readAsStringSync();
     var document = XmlDocument.parse(fileContents);
     var projectNode = document.getElement("project");
