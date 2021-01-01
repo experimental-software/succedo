@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:succedo_desktop/core/note_repository.dart';
 
 class Project {
@@ -10,11 +12,20 @@ class Project {
 
   Project({required this.name, required this.path});
 
-  static void create({required name, required path}) {
-    _current = Project(name: name, path: path);
+  Project.create({required this.name, required this.path}) {
+    _current = this;
+    notes = NoteRepository();
+    save();
   }
 
   static Project get current {
     return _current!;
+  }
+
+  void save() {
+    var file = File(path);
+    if (!file.existsSync()) {
+      file.createSync(recursive: true);
+    }
   }
 }

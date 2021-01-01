@@ -11,6 +11,11 @@ class NoteRepository {
     _index(_noteIndex, _notes);
   }
 
+  NoteRepository.empty() {
+    _notes = [];
+    _noteIndex = {};
+  }
+
   List<Note> getAllNotes() {
     return List.unmodifiable(_notes);
   }

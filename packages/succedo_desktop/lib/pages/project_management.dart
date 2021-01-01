@@ -135,7 +135,11 @@ class _CreateProjectDialogState extends State<_CreateProjectDialog> {
       }
     }
 
-    widget.onDialogClose(Project(name: "Dummy project", path: "/tmp/dummy-project" ));
+    var project = Project.create(
+      name: projectNameController.text,
+      path: projectPathController.text,
+    );
+    widget.onDialogClose(project);
   }
 
   void cancel() {
