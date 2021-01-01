@@ -1,4 +1,5 @@
 import 'package:succedo_desktop/core/note.dart';
+import 'package:succedo_desktop/core/project.dart';
 import 'package:uuid/uuid.dart';
 
 class NoteRepository {

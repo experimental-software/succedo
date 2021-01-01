@@ -6,6 +6,7 @@ import 'package:succedo_desktop/core/note_repository.dart';
 
 import '../widgets/editable_title.dart';
 import 'create_note_dialog.dart';
+import '../core/project.dart';
 
 class NoteDetails extends StatefulWidget {
   final Note note;
@@ -35,7 +36,10 @@ class _NoteDetailsState extends State<NoteDetails> {
       appBar: AppBar(
         title: EditableTitle(
           initialTitle: widget.note.title,
-          onTitleChanged: (newTitle) => widget.note.title = newTitle,
+          onTitleChanged: (newTitle) {
+            widget.note.title = newTitle;
+            Project.current.save();
+          },
         ),
       ),
       body: Align(
@@ -61,6 +65,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                       ),
                       onChanged: (value) {
                         widget.note.details = value;
+                        Project.current.save();
                         setState(() {});
                       },
                     ),
@@ -91,7 +96,10 @@ class _NoteDetailsState extends State<NoteDetails> {
       context: context,
       builder: (BuildContext context) {
         return CreateNoteDialog(
-          onDialogClose: () => Navigator.pop(context),
+          onDialogClose: () {
+            Project.current.save(); // TODO More generic handling for saving. Maybe add a save icon.
+            Navigator.pop(context);
+          },
         );
       },
     );
