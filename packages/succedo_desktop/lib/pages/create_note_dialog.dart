@@ -80,7 +80,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                         onPressed: save,
                       )
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
