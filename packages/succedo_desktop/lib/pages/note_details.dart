@@ -3,9 +3,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get_it/get_it.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
-import 'package:succedo_desktop/screens/create_note_dialog.dart';
 
 import '../widgets/editable_title.dart';
+import 'create_note_dialog.dart';
 
 class NoteDetails extends StatefulWidget {
   final Note note;
@@ -115,8 +115,8 @@ class _ActionButtons extends StatelessWidget {
               noteRepository.remove(note);
               Navigator.of(context).pop();
             },
-            child: Text("Erledigt"),
-          )
+            child: Text("Done"),
+          ),
         ],
       ),
     );

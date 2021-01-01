@@ -1,8 +1,10 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
-import 'package:succedo_desktop/core/note_repository.dart';
-import 'package:succedo_desktop/screens/note_overview.dart';
 import 'package:get_it/get_it.dart';
+import 'package:succedo_desktop/core/note_repository.dart';
+import 'package:succedo_desktop/pages/project_management.dart';
+
+import 'pages/note_overview.dart';
 
 void main(List<String> arguments) {
   GetIt.I.registerSingleton(NoteRepository());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: NoteOverview(initialTitle: 'Erstellung von Git Workshop Webseite'),
+      home: ProjectManagementPage(),
       debugShowCheckedModeBanner: false,
     );
   }
