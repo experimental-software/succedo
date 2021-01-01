@@ -26,7 +26,7 @@ class ProjectManagementPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           DesktopPageRoute(builder: (context) {
-                            return NoteOverview(initialTitle: project.name);
+                            return NoteOverview(initialTitle: project.title);
                           }),
                         );
                       }
@@ -136,7 +136,7 @@ class _CreateProjectDialogState extends State<_CreateProjectDialog> {
     }
 
     var project = Project.create(
-      name: projectNameController.text,
+      title: projectNameController.text,
       path: projectPathController.text,
     );
     widget.onDialogClose(project);
