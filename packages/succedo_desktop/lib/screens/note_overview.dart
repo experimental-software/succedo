@@ -8,10 +8,12 @@ import 'package:succedo_desktop/screens/create_note_dialog.dart';
 import 'package:succedo_desktop/screens/note_details.dart';
 import 'package:open_url/open_url.dart';
 
-class NoteOverview extends StatefulWidget {
-  NoteOverview({required this.title});
+import '../widgets/editable_title.dart';
 
-  final String title;
+class NoteOverview extends StatefulWidget {
+  NoteOverview({required this.initialTitle});
+
+  final String initialTitle;
 
   @override
   _NoteOverviewState createState() => _NoteOverviewState();
@@ -67,7 +69,11 @@ class _NoteOverviewState extends State<NoteOverview> {
       onKey: handleKeyPressed,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: EditableTitle(
+            initialTitle: widget.initialTitle,
+            onTitleChanged: (newTitle) {},
+          ),
+          //title: Text(widget.title),
         ),
         body: Center(
           child: Column(
@@ -135,7 +141,7 @@ class _NoteOverviewState extends State<NoteOverview> {
     var selectedKey = treeViewController.selectedKey;
     if (selectedKey != null) {
       var selectedNote = noteRepository.findNote(selectedKey)!;
-      
+
       if (event.isControlPressed && event.character == "x") {
         noteInTray = selectedNote;
         noteRepository.remove(selectedNote);

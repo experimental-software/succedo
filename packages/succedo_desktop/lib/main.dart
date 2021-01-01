@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: NoteOverview(title: 'Erstellung von Git Workshop Webseite'),
+      home: NoteOverview(initialTitle: 'Erstellung von Git Workshop Webseite'),
       debugShowCheckedModeBanner: false,
     );
   }
