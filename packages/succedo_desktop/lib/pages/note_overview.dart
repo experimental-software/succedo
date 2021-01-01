@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_treeview/tree_view.dart';
-import 'package:get_it/get_it.dart';
 import 'package:open_url/open_url.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
@@ -9,6 +8,7 @@ import 'package:succedo_desktop/routing.dart';
 import '../widgets/editable_title.dart';
 import 'create_note_dialog.dart';
 import 'note_details.dart';
+import '../core/project.dart';
 
 class NoteOverview extends StatefulWidget {
   NoteOverview({required this.initialTitle});
@@ -20,7 +20,7 @@ class NoteOverview extends StatefulWidget {
 }
 
 class _NoteOverviewState extends State<NoteOverview> {
-  NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
+  NoteRepository noteRepository = Project.current.notes;
   FocusNode keyboardFocus = FocusNode();
   Note? noteInTray;
 

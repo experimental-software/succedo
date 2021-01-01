@@ -45,7 +45,7 @@ class Project {
     return _current!;
   }
 
-  void save() {
+  Future save() async {
     var file = _buildFile(path);
     if (!file.existsSync()) {
       file.createSync(recursive: true);
