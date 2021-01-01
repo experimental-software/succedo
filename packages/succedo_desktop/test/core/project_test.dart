@@ -87,4 +87,12 @@ void main() {
 </project>
     """));
   });
+
+  test("Should deserialize project with single note", () async {
+    var path = "test_resources/test-project-simple.xml";
+
+    var project = Project.load(path: path);
+
+    expect(project.title, equals("Test project"));
+  });
 }

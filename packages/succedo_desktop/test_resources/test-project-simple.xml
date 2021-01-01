@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<project title="Test project">
+    <notes>
+        <note>
+            <title>Test note</title>
+            <details>Test note details</details>
+        </note>
+    </notes>
+</project>

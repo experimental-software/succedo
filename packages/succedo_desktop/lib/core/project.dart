@@ -16,9 +16,21 @@ class Project {
   Project({required this.title, required this.path});
 
   Project.create({required this.title, required this.path}) {
-    _current = this;
     notes = NoteRepository.empty();
     save();
+
+    _current = this;
+  }
+
+  Project.load({required this.path}) {
+    notes = NoteRepository.empty();
+    var file = File(path);
+    var fileContents = file.readAsStringSync();
+    var document = XmlDocument.parse(fileContents);
+    var element = document.getElement("project");
+    title = element!.getAttribute("title")!;
+
+    _current = this;
   }
 
   static Project get current {
