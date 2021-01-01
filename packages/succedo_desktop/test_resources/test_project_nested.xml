@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project title="Nested test project">
+    <notes>
+        <note>
+            <title>Parent note</title>
+            <children>
+                <note>
+                    <title>Child note 1</title>
+                    <children>
+                        <note>
+                            <title>Nested child note</title>
+                        </note>
+                    </children>
+                </note>
+                <note>
+                    <title>Child note 2</title>
+                </note>
+            </children>
+        </note>
+    </notes>
+</project>

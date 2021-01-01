@@ -89,7 +89,7 @@ void main() {
   });
 
   test("Should deserialize project with single note", () async {
-    var path = "test_resources/test-project-simple.xml";
+    var path = "test_resources/test_project_simple.xml";
 
     var project = Project.load(path: path);
 
@@ -97,5 +97,23 @@ void main() {
     expect(project.notes.getAllNotes().length, equals(1));
     expect(project.notes.getAllNotes()[0].title, equals("Test note"));
     expect(project.notes.getAllNotes()[0].details, equals("Test note details"));
+  });
+
+  test("Should deserialize project with nested notes", () async {
+    var path = "test_resources/test_project_nested.xml";
+
+    var project = Project.load(path: path);
+
+    expect(project.title, equals("Nested test project"));
+    expect(project.notes.getAllNotes().length, equals(1));
+    var parentNote = project.notes.getAllNotes()[0];
+    expect(parentNote.title, equals("Parent note"));
+    expect(parentNote.children.length, equals(2));
+    expect(parentNote.children[0].title, equals("Child note 1"));
+    expect(parentNote.children[0].children.length, equals(1));
+    expect(parentNote.children[0].children[0].title, equals("Nested child note"));
+    expect(parentNote.children[0].children[0].children.length, equals(0));
+    expect(parentNote.children[1].title, equals("Child note 2"));
+    expect(parentNote.children[1].children.length, equals(0));
   });
 }
