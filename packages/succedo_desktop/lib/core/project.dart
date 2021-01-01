@@ -1,7 +1,7 @@
-
 import 'dart:io';
 
 import 'package:succedo_desktop/core/note_repository.dart';
+import 'package:uuid/uuid.dart';
 import 'package:xml/xml.dart';
 
 import 'note.dart';
@@ -27,10 +27,43 @@ class Project {
     var file = File(path);
     var fileContents = file.readAsStringSync();
     var document = XmlDocument.parse(fileContents);
-    var element = document.getElement("project");
-    title = element!.getAttribute("title")!;
+    var projectNode = document.getElement("project");
+    title = projectNode!.getAttribute("title")!;
+    var notesXml = projectNode.getElement("notes");
+    if (notesXml != null) {
+      for (var noteXml in notesXml.findElements("note")) {
+        notes.add(_parseNote(noteXml));
+      }
+    }
 
     _current = this;
+  }
+
+  static Note _parseNote(XmlElement noteXml) {
+    var title = noteXml.getElement("title")!.text;
+    var details;
+    var detailsXml = noteXml.getElement("details");
+    if (detailsXml != null) {
+      details = detailsXml.text;
+    }
+    return Note(
+      id: Uuid().v4(),
+      title: title,
+      details: details,
+      children: _parseChildren(noteXml),
+    );
+  }
+
+  static List<Note> _parseChildren(XmlElement noteXml) {
+    var result = <Note>[];
+    var childrenXml = noteXml.getElement("children");
+    if (childrenXml != null) {
+      var notesXml = childrenXml.findElements("note");
+      for (var noteXml in notesXml) {
+        result.add(_parseNote(noteXml));
+      }
+    } 
+    return result;
   }
 
   static Project get current {
@@ -48,11 +81,10 @@ class Project {
       builder.attribute('title', title);
 
       builder.element('notes', nest: () {
-        for(var note in notes.getAllNotes()) {
+        for (var note in notes.getAllNotes()) {
           _addNote(builder, note);
         }
       });
-
     });
     final projectXml = builder.buildDocument();
 
@@ -78,7 +110,7 @@ class Project {
   void _addChildren(XmlBuilder builder, Note note) {
     if (note.children.isNotEmpty) {
       builder.element("children", nest: () {
-        for(var note in note.children) {
+        for (var note in note.children) {
           _addNote(builder, note);
         }
       });

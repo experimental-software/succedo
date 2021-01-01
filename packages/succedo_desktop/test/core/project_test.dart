@@ -94,5 +94,8 @@ void main() {
     var project = Project.load(path: path);
 
     expect(project.title, equals("Test project"));
+    expect(project.notes.getAllNotes().length, equals(1));
+    expect(project.notes.getAllNotes()[0].title, equals("Test note"));
+    expect(project.notes.getAllNotes()[0].details, equals("Test note details"));
   });
 }
