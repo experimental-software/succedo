@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:get_it/get_it.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
 
@@ -107,7 +106,7 @@ class _NoteDetailsState extends State<NoteDetails> {
 }
 
 class _ActionButtons extends StatelessWidget {
-  final NoteRepository noteRepository = GetIt.I.get<NoteRepository>();
+  final NoteRepository noteRepository = Project.current.notes;
   final Note note;
 
   _ActionButtons({required this.note});
@@ -121,6 +120,7 @@ class _ActionButtons extends StatelessWidget {
           RaisedButton(
             onPressed: () {
               noteRepository.remove(note);
+              Project.current.save();
               Navigator.of(context).pop();
             },
             child: Text("Done"),
