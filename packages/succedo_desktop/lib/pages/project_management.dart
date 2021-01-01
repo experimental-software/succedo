@@ -60,6 +60,7 @@ class _CreateProjectDialogState extends State<_CreateProjectDialog> {
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: SimpleDialog(
         title: Text("Create project"),
         children: [
@@ -127,6 +128,12 @@ class _CreateProjectDialogState extends State<_CreateProjectDialog> {
   }
 
   void save() {
+    var formState = formKey.currentState;
+    if (formState != null) {
+      if (!formState.validate()) {
+        return;
+      }
+    }
     widget.onDialogClose(Project(name: "Dummy project", path: "/tmp/dummy-project" ));
   }
 
