@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:succedo_desktop/core/note_repository.dart';
 import 'package:uuid/uuid.dart';
 import 'package:xml/xml.dart';
+import 'dart:io';
+import 'package:path/path.dart';
 
 import 'note.dart';
 
@@ -24,7 +26,7 @@ class Project {
 
   Project.load({required this.path}) {
     notes = NoteRepository.empty();
-    var file = File(path);
+    var file = _buildFile(path);
     var fileContents = file.readAsStringSync();
     var document = XmlDocument.parse(fileContents);
     var projectNode = document.getElement("project");
@@ -32,38 +34,11 @@ class Project {
     var notesXml = projectNode.getElement("notes");
     if (notesXml != null) {
       for (var noteXml in notesXml.findElements("note")) {
-        notes.add(_parseNote(noteXml));
+        notes.add(_deserializeNote(noteXml));
       }
     }
 
     _current = this;
-  }
-
-  static Note _parseNote(XmlElement noteXml) {
-    var title = noteXml.getElement("title")!.text;
-    var details;
-    var detailsXml = noteXml.getElement("details");
-    if (detailsXml != null) {
-      details = detailsXml.text;
-    }
-    return Note(
-      id: Uuid().v4(),
-      title: title,
-      details: details,
-      children: _parseChildren(noteXml),
-    );
-  }
-
-  static List<Note> _parseChildren(XmlElement noteXml) {
-    var result = <Note>[];
-    var childrenXml = noteXml.getElement("children");
-    if (childrenXml != null) {
-      var notesXml = childrenXml.findElements("note");
-      for (var noteXml in notesXml) {
-        result.add(_parseNote(noteXml));
-      }
-    } 
-    return result;
   }
 
   static Project get current {
@@ -71,7 +46,7 @@ class Project {
   }
 
   void save() {
-    var file = File(path);
+    var file = _buildFile(path);
     if (!file.existsSync()) {
       file.createSync(recursive: true);
     }
@@ -115,5 +90,37 @@ class Project {
         }
       });
     }
+  }
+
+  static Note _deserializeNote(XmlElement noteXml) {
+    var title = noteXml.getElement("title")!.text;
+    var details;
+    var detailsXml = noteXml.getElement("details");
+    if (detailsXml != null) {
+      details = detailsXml.text;
+    }
+    return Note(
+      id: Uuid().v4(),
+      title: title,
+      details: details,
+      children: _deserializeChildren(noteXml),
+    );
+  }
+
+  static List<Note> _deserializeChildren(XmlElement noteXml) {
+    var result = <Note>[];
+    var childrenXml = noteXml.getElement("children");
+    if (childrenXml != null) {
+      var notesXml = childrenXml.findElements("note");
+      for (var noteXml in notesXml) {
+        result.add(_deserializeNote(noteXml));
+      }
+    }
+    return result;
+  }
+
+  static File _buildFile(String path) {
+    var normalizedPath = path.replaceAll("~", absolute(Platform.environment['HOME']!));
+    return File(normalizedPath);
   }
 }
