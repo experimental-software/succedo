@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_treeview/tree_view.dart';
 import 'package:open_url/open_url.dart';
 import 'package:succedo_desktop/core/note.dart';
@@ -11,6 +12,7 @@ import 'note_details.dart';
 import '../core/project.dart';
 
 class NoteOverview extends StatefulWidget {
+  // TODO: The initial title can also be read from the current project.
   NoteOverview({required this.initialTitle});
 
   final String initialTitle;
@@ -71,7 +73,11 @@ class _NoteOverviewState extends State<NoteOverview> {
         appBar: AppBar(
           title: EditableTitle(
             initialTitle: widget.initialTitle,
-            onTitleChanged: (newTitle) {},
+            onTitleChanged: (newTitle) {
+              var project = Project.current;
+              project.title = newTitle;
+              project.save();
+            },
           ),
         ),
         body: Center(
@@ -139,6 +145,7 @@ class _NoteOverviewState extends State<NoteOverview> {
   void handleKeyPressed(RawKeyEvent event) {
     var selectedKey = treeViewController.selectedKey;
     if (selectedKey != null) {
+      print(selectedKey);
       var selectedNote = noteRepository.findNote(selectedKey)!;
 
       if (event.isControlPressed && event.character == "x") {
@@ -152,6 +159,12 @@ class _NoteOverviewState extends State<NoteOverview> {
         noteInTray = null;
         updateTreeView();
         return;
+      }
+      if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
+        print("arrow up");
+      }
+      if (event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
+        print("arrow down");
       }
     } else {
       if (event.isControlPressed && event.character == "v" && noteInTray != null) {

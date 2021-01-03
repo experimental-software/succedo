@@ -123,7 +123,10 @@ class Project {
   }
 
   static File _buildFile(String path) {
-    var normalizedPath = path.replaceAll("~", absolute(Platform.environment['HOME']!));
+    var normalizedPath = path
+        .replaceAll("~", absolute(Platform.environment['HOME']!))
+        // As workaround for https://github.com/flutter/flutter/issues/68713, '#' is used as synonym for '~'.
+        .replaceAll("#", absolute(Platform.environment['HOME']!));
     return File(normalizedPath);
   }
 }
