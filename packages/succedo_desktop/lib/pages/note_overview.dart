@@ -162,10 +162,20 @@ class _NoteOverviewState extends State<NoteOverview> {
         return;
       }
       if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
-        print("arrow up");
+        Project.current.decrementIndex(selectedNote);
+        setState(() {
+          treeViewController = TreeViewController(children: _toNodes(noteRepository.getRootNotes()));
+          treeViewController = treeViewController.copyWith(selectedKey: selectedNote.id);
+        });
+        return;
       }
       if (event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
-        print("arrow down");
+        Project.current.incrementIndex(selectedNote);
+        setState(() {
+          treeViewController = TreeViewController(children: _toNodes(noteRepository.getRootNotes()));
+          treeViewController = treeViewController.copyWith(selectedKey: selectedNote.id);
+        });
+        return;
       }
     } else {
       if (event.isControlPressed && event.character == "v" && noteInTray != null) {
