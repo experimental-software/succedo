@@ -134,6 +134,17 @@ void main() {
     expect(project.notes.getRootNotes().length, equals(3));
   });
 
+  test("Should move root note down", () {
+    var path = "test_resources/test_project_multiple_root_notes.xml";
+    var project = Project.load(path: path);
+    var noteToBeMoved = project.notes.getRootNotes()[0];
+
+    project.incrementIndex(noteToBeMoved);
+
+    expect(project.notes.getRootNotes()[1], equals(noteToBeMoved));
+    expect(project.notes.getRootNotes().length, equals(3));
+  });
+
   test("Should move child note up", () {
 
   });

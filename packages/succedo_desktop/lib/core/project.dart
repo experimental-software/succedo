@@ -132,12 +132,21 @@ class Project {
   }
 
   void decrementIndex(Note noteToBeMoved) {
+    _changeIndex(noteToBeMoved, -1);
+  }
+
+  void incrementIndex(Note noteToBeMoved) {
+    _changeIndex(noteToBeMoved, 1);
+  }
+
+  void _changeIndex(Note noteToBeMoved, int offset) {
     var rootNotes = notes.getRootNotes();
     if (rootNotes.contains(noteToBeMoved)) {
       final oldIndex = rootNotes.indexOf(noteToBeMoved);
-      if (oldIndex == 0) return;
+      if (offset < 0 && oldIndex == 0) return;
+      if (offset > 0 && oldIndex == rootNotes.length - 1) return;
       rootNotes.removeAt(oldIndex);
-      rootNotes.insert(oldIndex - 1, noteToBeMoved);
+      rootNotes.insert(oldIndex + offset, noteToBeMoved);
     }
     save();
   }
