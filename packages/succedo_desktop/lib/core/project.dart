@@ -1,12 +1,12 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:succedo_desktop/core/note_repository.dart';
-import 'package:uuid/uuid.dart';
-import 'package:xml/xml.dart';
-import 'dart:io';
-import 'package:path/path.dart';
+import "package:succedo_desktop/core/note_repository.dart";
+import "package:uuid/uuid.dart";
+import "package:xml/xml.dart";
+import "dart:io";
+import "package:path/path.dart";
 
-import 'note.dart';
+import "note.dart";
 
 class Project {
   static Project? _current;
@@ -54,11 +54,11 @@ class Project {
       file.createSync(recursive: true);
     }
     final builder = XmlBuilder();
-    builder.processing('xml', 'version="1.0"');
-    builder.element('project', nest: () {
-      builder.attribute('title', title);
+    builder.processing("xml", "version='1.0'");
+    builder.element("project", nest: () {
+      builder.attribute("title", title);
 
-      builder.element('notes', nest: () {
+      builder.element("notes", nest: () {
         for (var note in notes.getAllNotes()) {
           _addNote(builder, note);
         }
@@ -72,12 +72,13 @@ class Project {
   }
 
   void _addNote(XmlBuilder builder, Note note) {
-    builder.element('note', nest: () {
-      builder.element('title', nest: () {
+    builder.element("note", nest: () {
+      builder.attribute("id", note.id);
+      builder.element("title", nest: () {
         builder.text(note.title);
       });
       if (note.details != null) {
-        builder.element('details', nest: () {
+        builder.element("details", nest: () {
           builder.text(note.details!);
         });
       }
@@ -124,9 +125,9 @@ class Project {
 
   static File _buildFile(String path) {
     var normalizedPath = path
-        .replaceAll("~", absolute(Platform.environment['HOME']!))
-        // As workaround for https://github.com/flutter/flutter/issues/68713, '#' is used as synonym for '~'.
-        .replaceAll("#", absolute(Platform.environment['HOME']!));
+        .replaceAll("~", absolute(Platform.environment["HOME"]!))
+        // As workaround for https://github.com/flutter/flutter/issues/68713, "#" is used as synonym for "~".
+        .replaceAll("#", absolute(Platform.environment["HOME"]!));
     return File(normalizedPath);
   }
 }
