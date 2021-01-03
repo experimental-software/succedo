@@ -1,10 +1,8 @@
 import "dart:io";
 
-import "package:succedo_desktop/core/note_repository.dart";
-import "package:uuid/uuid.dart";
-import "package:xml/xml.dart";
-import "dart:io";
 import "package:path/path.dart";
+import "package:succedo_desktop/core/note_repository.dart";
+import "package:xml/xml.dart";
 
 import "note.dart";
 
