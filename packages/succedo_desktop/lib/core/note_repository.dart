@@ -17,8 +17,8 @@ class NoteRepository {
     _noteIndex = {};
   }
 
-  List<Note> getAllNotes() {
-    return List.unmodifiable(_notes);
+  List<Note> getRootNotes() {
+    return _notes;
   }
 
   Note? findNote(String id) {

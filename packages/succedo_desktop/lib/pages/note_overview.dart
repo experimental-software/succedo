@@ -31,7 +31,7 @@ class _NoteOverviewState extends State<NoteOverview> {
   @override
   void initState() {
     super.initState();
-    treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
+    treeViewController = TreeViewController(children: _toNodes(noteRepository.getRootNotes()));
   }
 
   @override
@@ -138,7 +138,7 @@ class _NoteOverviewState extends State<NoteOverview> {
 
   void updateTreeView() {
     setState(() {
-      treeViewController = TreeViewController(children: _toNodes(noteRepository.getAllNotes()));
+      treeViewController = TreeViewController(children: _toNodes(noteRepository.getRootNotes()));
     });
   }
 

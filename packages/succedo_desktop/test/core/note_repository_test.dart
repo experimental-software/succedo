@@ -7,7 +7,7 @@ void main() {
   test("Should find nested note", () {
     var path = "test_resources/test_project_nested.xml";
     var project = Project.load(path: path);
-    var nestedNote = project.notes.getAllNotes()[0].children[0].children[0];
+    var nestedNote = project.notes.getRootNotes()[0].children[0].children[0];
 
     var retrievedNote = project.notes.findNote(nestedNote.id);
 
@@ -16,9 +16,9 @@ void main() {
 
   test("Should update parent note", () {
     var noteRepository = NoteRepository();
-    var firstNote = noteRepository.getAllNotes()[0];
+    var firstNote = noteRepository.getRootNotes()[0];
     expect(firstNote.children.length, equals(1));
-    var thirdNote = noteRepository.getAllNotes()[2];
+    var thirdNote = noteRepository.getRootNotes()[2];
     expect(thirdNote.children.length, equals(0));
     var noteToBeMoved = firstNote.children[0];
 

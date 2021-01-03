@@ -59,7 +59,7 @@ class Project {
       builder.attribute("title", title);
 
       builder.element("notes", nest: () {
-        for (var note in notes.getAllNotes()) {
+        for (var note in notes.getRootNotes()) {
           _addNote(builder, note);
         }
       });
@@ -131,5 +131,14 @@ class Project {
     return File(normalizedPath);
   }
 
-  void moveUp(Note noteToBeMoved) {}
+  void decrementIndex(Note noteToBeMoved) {
+    var rootNotes = notes.getRootNotes();
+    if (rootNotes.contains(noteToBeMoved)) {
+      final oldIndex = rootNotes.indexOf(noteToBeMoved);
+      if (oldIndex == 0) return;
+      rootNotes.removeAt(oldIndex);
+      rootNotes.insert(oldIndex - 1, noteToBeMoved);
+    }
+    save();
+  }
 }

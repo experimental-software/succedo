@@ -100,9 +100,9 @@ void main() {
     var project = Project.load(path: path);
 
     expect(project.title, equals("Test project"));
-    expect(project.notes.getAllNotes().length, equals(1));
-    expect(project.notes.getAllNotes()[0].title, equals("Test note"));
-    expect(project.notes.getAllNotes()[0].details, equals("Test note details"));
+    expect(project.notes.getRootNotes().length, equals(1));
+    expect(project.notes.getRootNotes()[0].title, equals("Test note"));
+    expect(project.notes.getRootNotes()[0].details, equals("Test note details"));
   });
 
   test("Should deserialize project with nested notes", () {
@@ -111,8 +111,8 @@ void main() {
     var project = Project.load(path: path);
 
     expect(project.title, equals("Nested test project"));
-    expect(project.notes.getAllNotes().length, equals(1));
-    var parentNote = project.notes.getAllNotes()[0];
+    expect(project.notes.getRootNotes().length, equals(1));
+    var parentNote = project.notes.getRootNotes()[0];
     expect(parentNote.title, equals("Parent note"));
     expect(parentNote.children.length, equals(3));
     expect(parentNote.children[0].title, equals("Child note 1"));
@@ -126,11 +126,12 @@ void main() {
   test("Should move root note up", () {
     var path = "test_resources/test_project_multiple_root_notes.xml";
     var project = Project.load(path: path);
-    var noteToBeMoved = project.notes.getAllNotes()[2];
+    var noteToBeMoved = project.notes.getRootNotes()[2];
 
-    project.moveUp(noteToBeMoved);
+    project.decrementIndex(noteToBeMoved);
 
-    expect(project.notes.getAllNotes()[1], equals(noteToBeMoved));
+    expect(project.notes.getRootNotes()[1], equals(noteToBeMoved));
+    expect(project.notes.getRootNotes().length, equals(3));
   });
 
   test("Should move child note up", () {
