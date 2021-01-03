@@ -29,6 +29,13 @@ class NoteRepository {
     }
   }
 
+  Note? findParentNote(Note note) {
+    for (var potentialParent in _noteIndex.values) {
+      if (potentialParent.children.contains(note)) return potentialParent;
+    }
+    return null;
+  }
+
   void add(Note note) {
     _notes.add(note);
     _index(_noteIndex, [note]);

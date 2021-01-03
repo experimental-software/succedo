@@ -140,14 +140,20 @@ class Project {
   }
 
   void _changeIndex(Note noteToBeMoved, int offset) {
+    late List<Note> siblings;
     var rootNotes = notes.getRootNotes();
     if (rootNotes.contains(noteToBeMoved)) {
-      final oldIndex = rootNotes.indexOf(noteToBeMoved);
-      if (offset < 0 && oldIndex == 0) return;
-      if (offset > 0 && oldIndex == rootNotes.length - 1) return;
-      rootNotes.removeAt(oldIndex);
-      rootNotes.insert(oldIndex + offset, noteToBeMoved);
+      siblings = rootNotes;
+    } else {
+      var parentNote = notes.findParentNote(noteToBeMoved)!;
+      siblings = parentNote.children;
     }
+    final oldIndex = siblings.indexOf(noteToBeMoved);
+    if (offset < 0 && oldIndex == 0) return;
+    if (offset > 0 && oldIndex == siblings.length - 1) return;
+    rootNotes.removeAt(oldIndex);
+    rootNotes.insert(oldIndex + offset, noteToBeMoved);
+
     save();
   }
 }
