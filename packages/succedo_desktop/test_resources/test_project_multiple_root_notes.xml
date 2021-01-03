@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project title="Nested test project">
+    <notes>
+        <note id="79d71496-6799-4212-8247-a93152210410">
+            <title>Root note 1</title>
+        </note>
+        <note id="07002cde-0097-4ddc-a685-ca505fafd8e1">
+            <title>Root note 2</title>
+        </note>
+        <note id="35ec52b6-6685-4fa3-ae5b-eca95bf11600">
+            <title>Root note 3</title>
+        </note>
+    </notes>
+</project>

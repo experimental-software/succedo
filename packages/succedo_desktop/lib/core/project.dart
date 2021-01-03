@@ -130,4 +130,6 @@ class Project {
         .replaceAll("#", absolute(Platform.environment["HOME"]!));
     return File(normalizedPath);
   }
+
+  void moveUp(Note noteToBeMoved) {}
 }

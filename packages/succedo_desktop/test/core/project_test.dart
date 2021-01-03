@@ -122,4 +122,18 @@ void main() {
     expect(parentNote.children[1].title, equals("Child note 2"));
     expect(parentNote.children[1].children.length, equals(0));
   });
+
+  test("Should move root note up", () {
+    var path = "test_resources/test_project_multiple_root_notes.xml";
+    var project = Project.load(path: path);
+    var noteToBeMoved = project.notes.getAllNotes()[2];
+
+    project.moveUp(noteToBeMoved);
+
+    expect(project.notes.getAllNotes()[1], equals(noteToBeMoved));
+  });
+
+  test("Should move child note up", () {
+
+  });
 }

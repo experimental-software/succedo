@@ -28,8 +28,4 @@ void main() {
     expect(thirdNote.children.length, equals(1));
     expect(firstNote.children.length, equals(0));
   });
-
-
-
-
 }
