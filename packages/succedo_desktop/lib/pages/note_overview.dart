@@ -144,8 +144,8 @@ class _NoteOverviewState extends State<NoteOverview> {
 
   void handleKeyPressed(RawKeyEvent event) {
     var selectedKey = treeViewController.selectedKey;
+    // ignore: unnecessary_null_comparison
     if (selectedKey != null) {
-      print(selectedKey);
       var selectedNote = noteRepository.findNote(selectedKey)!;
 
       if (event.isControlPressed && event.character == "x") {

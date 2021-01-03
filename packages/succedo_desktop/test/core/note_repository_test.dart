@@ -1,15 +1,17 @@
 // @dart=2.9
 import 'package:succedo_desktop/core/note_repository.dart';
+import 'package:succedo_desktop/core/project.dart';
 import "package:test/test.dart";
 
 void main() {
   test("Should find nested note", () {
-    var noteRepository = NoteRepository();
-    var nestedNote = noteRepository.getAllNotes()[0].children[0];
+    var path = "test_resources/test_project_nested.xml";
+    var project = Project.load(path: path);
+    var nestedNote = project.notes.getAllNotes()[0].children[0].children[0];
 
-    var retrievedNote = noteRepository.findNote(nestedNote.id);
+    var retrievedNote = project.notes.findNote(nestedNote.id);
 
-    expect(retrievedNote.id, equals(nestedNote.id));
+    expect(retrievedNote, equals(nestedNote));
   });
 
   test("Should update parent note", () {
@@ -26,4 +28,8 @@ void main() {
     expect(thirdNote.children.length, equals(1));
     expect(firstNote.children.length, equals(0));
   });
+
+
+
+
 }
