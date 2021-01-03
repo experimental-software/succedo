@@ -31,10 +31,7 @@ class NoteRepository {
 
   void add(Note note) {
     _notes.add(note);
-    if (_noteIndex.containsKey(note.id)) {
-      _noteIndex.remove(note.id);
-    }
-    _noteIndex.putIfAbsent(note.id, () => note);
+    _index(_noteIndex, [note]);
   }
 
   void _index(Map<String, Note> noteIndex, List<Note> notes) {

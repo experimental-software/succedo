@@ -117,7 +117,7 @@ void main() {
     expect(parentNote.children[1].children.length, equals(0));
   });
 
-  test("Should index all nested notes", () {
+  test("Should find nested notes", () {
     var path = "test_resources/test_project_nested.xml";
     var project = Project.load(path: path);
     var nestedNote = project.notes.getAllNotes()[0].children[0].children[0];

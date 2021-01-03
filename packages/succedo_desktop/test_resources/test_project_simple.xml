@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project title="Test project">
     <notes>
-        <note>
+        <note id="07002cde-0097-4ddc-a685-ca505fafd8e1">
             <title>Test note</title>
             <details>Test note details</details>
         </note>
