@@ -151,8 +151,8 @@ class Project {
     final oldIndex = siblings.indexOf(noteToBeMoved);
     if (offset < 0 && oldIndex == 0) return;
     if (offset > 0 && oldIndex == siblings.length - 1) return;
-    rootNotes.removeAt(oldIndex);
-    rootNotes.insert(oldIndex + offset, noteToBeMoved);
+    siblings.removeAt(oldIndex);
+    siblings.insert(oldIndex + offset, noteToBeMoved);
 
     save();
   }

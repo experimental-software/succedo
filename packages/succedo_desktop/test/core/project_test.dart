@@ -146,6 +146,12 @@ void main() {
   });
 
   test("Should move child note up", () {
+    var path = "test_resources/test_project_nested.xml";
+    var project = Project.load(path: path);
+    var noteToBeMoved = project.notes.getRootNotes()[0].children[1];
 
+    project.decrementIndex(noteToBeMoved);
+
+    expect(project.notes.getRootNotes()[0].children[0], equals(noteToBeMoved));
   });
 }
