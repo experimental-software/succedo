@@ -104,7 +104,7 @@ class Project {
       details = detailsXml.text;
     }
     return Note(
-      id: Uuid().v4(),
+      id: noteXml.getAttribute("id")!,
       title: title,
       details: details,
       children: _deserializeChildren(noteXml),

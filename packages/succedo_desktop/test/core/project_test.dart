@@ -88,7 +88,7 @@ void main() {
     """));
   });
 
-  test("Should deserialize project with single note", () async {
+  test("Should deserialize project with single note", () {
     var path = "test_resources/test_project_simple.xml";
 
     var project = Project.load(path: path);
@@ -99,7 +99,7 @@ void main() {
     expect(project.notes.getAllNotes()[0].details, equals("Test note details"));
   });
 
-  test("Should deserialize project with nested notes", () async {
+  test("Should deserialize project with nested notes", () {
     var path = "test_resources/test_project_nested.xml";
 
     var project = Project.load(path: path);
@@ -115,5 +115,15 @@ void main() {
     expect(parentNote.children[0].children[0].children.length, equals(0));
     expect(parentNote.children[1].title, equals("Child note 2"));
     expect(parentNote.children[1].children.length, equals(0));
+  });
+
+  test("Should index all nested notes", () {
+    var path = "test_resources/test_project_nested.xml";
+    var project = Project.load(path: path);
+    var nestedNote = project.notes.getAllNotes()[0].children[0].children[0];
+
+    var retrievedNote = project.notes.findNote(nestedNote.id);
+
+    expect(retrievedNote, equals(nestedNote));
   });
 }

@@ -151,6 +151,7 @@ class _NoteOverviewState extends State<NoteOverview> {
       if (event.isControlPressed && event.character == "x") {
         noteInTray = selectedNote;
         noteRepository.remove(selectedNote);
+        treeViewController = treeViewController.copyWith(selectedKey: null);
         updateTreeView();
         return;
       }
