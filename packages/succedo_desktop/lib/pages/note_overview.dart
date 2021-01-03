@@ -161,19 +161,23 @@ class _NoteOverviewState extends State<NoteOverview> {
         updateTreeView();
         return;
       }
-      if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
+      if (event.isControlPressed && event.isShiftPressed && event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
         Project.current.decrementIndex(selectedNote);
         setState(() {
-          treeViewController = TreeViewController(children: _toNodes(noteRepository.getRootNotes()));
-          treeViewController = treeViewController.copyWith(selectedKey: selectedNote.id);
+          treeViewController = TreeViewController(
+            children: _toNodes(noteRepository.getRootNotes()),
+            selectedKey: selectedNote.id,
+          );
         });
         return;
       }
-      if (event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
+      if (event.isControlPressed && event.isShiftPressed && event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
         Project.current.incrementIndex(selectedNote);
         setState(() {
-          treeViewController = TreeViewController(children: _toNodes(noteRepository.getRootNotes()));
-          treeViewController = treeViewController.copyWith(selectedKey: selectedNote.id);
+          treeViewController = TreeViewController(
+            children: _toNodes(noteRepository.getRootNotes()),
+            selectedKey: selectedNote.id,
+          );
         });
         return;
       }

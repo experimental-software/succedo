@@ -6,11 +6,32 @@ import 'package:succedo_desktop/pages/project_management.dart';
 import 'core/project.dart';
 
 void main(List<String> arguments) {
-  Project.load(path: "~/WIP/git-training.xml");
-  runApp(MyApp());
+  String projectPath;
+  if (arguments.length == 1) projectPath = arguments[0];
+
+  runApp(SuccedoApp(
+    initialProjectPath: projectPath,
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class SuccedoApp extends StatefulWidget {
+  final String initialProjectPath;
+
+  SuccedoApp({this.initialProjectPath});
+
+  @override
+  _SuccedoAppState createState() => _SuccedoAppState();
+}
+
+class _SuccedoAppState extends State<SuccedoApp> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialProjectPath != null) {
+      Project.load(path: widget.initialProjectPath);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,8 +40,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: ProjectManagementPage(),
-      home: NoteOverview(initialTitle: Project.current.title),
+      home: _homePage(),
       debugShowCheckedModeBanner: false,
     );
+  }
+
+  Widget _homePage() {
+    if (widget.initialProjectPath == null) {
+      return ProjectManagementPage();
+    } else {
+      return NoteOverview(initialTitle: Project.current.title);
+    }
   }
 }
