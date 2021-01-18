@@ -65,7 +65,7 @@ class Project {
     final projectXml = builder.buildDocument();
 
     var sink = file.openWrite();
-    sink.write(projectXml.toXmlString(pretty: true));
+    sink.write(projectXml.toXmlString(pretty: true, preserveWhitespace: (node) => true));
     sink.close();
   }
 
@@ -77,7 +77,7 @@ class Project {
       });
       if (note.details != null) {
         builder.element("details", nest: () {
-          builder.text(note.details!);
+          builder.text(note.details!.replaceAll('\\n', '\n'));
         });
       }
       _addChildren(builder, note);
