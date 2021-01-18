@@ -47,38 +47,23 @@ class _NoteDetailsState extends State<NoteDetails> {
           children: [
             _ActionButtons(note: widget.note),
             Expanded(
-              child: GridView.count(
-                primary: false,
-                padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: TextField(
-                      controller: descriptionController,
-                      maxLines: 100,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                      ),
-                      onChanged: (value) {
-                        widget.note.details = value;
-                        Project.current.save();
-                        setState(() {});
-                      },
-                    ),
+              child: Container(
+                padding: const EdgeInsets.all(30),
+                child: TextField(
+                  controller: descriptionController,
+                  maxLines: 100,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: Markdown(
-                      data: descriptionController.text,
-                      selectable: true,
-                    ),
-                  ),
-                ],
+                  onChanged: (value) {
+                    widget.note.details = value;
+                    Project.current.save();
+                    setState(() {});
+                  },
+                ),
               ),
             ),
+            SizedBox(height: 75)
           ],
         ),
       ),
