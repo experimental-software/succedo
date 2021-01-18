@@ -55,6 +55,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                   ),
+                  style: TextStyle(fontSize: 20),
                   onChanged: (value) {
                     widget.note.details = value;
                     Project.current.save();
