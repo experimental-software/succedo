@@ -132,6 +132,24 @@ class _NoteOverviewState extends State<NoteOverview> {
           tooltip: 'Add note',
           child: Icon(Icons.add),
         ),
+        endDrawer: Drawer(
+          child: ListView(
+            children: [
+              ListTile(
+                title: Text("Item 1"),
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: Text("Item 2"),
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

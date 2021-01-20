@@ -10,7 +10,7 @@ class ProjectManagementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Project management"),
+        title: Text("Succedo"),
       ),
       body: Column(
         children: [
