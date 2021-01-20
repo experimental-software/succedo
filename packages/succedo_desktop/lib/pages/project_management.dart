@@ -12,56 +12,62 @@ class ProjectManagementPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Succedo"),
       ),
-      body: Column(
-        children: [
-          RaisedButton(
-            child: Text("Create new project"),
-            onPressed: () async {
-              await showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return _CreateProjectDialog(
-                    onDialogClose: (Project? project) {
-                      Navigator.pop(context);
-                      if (project != null) {
-                        Navigator.push(
-                          context,
-                          DesktopPageRoute(builder: (context) {
-                            return NoteOverview(initialTitle: project.title);
-                          }),
-                        );
-                      }
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: Container(
+          width: 400,
+          child: Column(
+            children: [
+              RaisedButton(
+                child: Text("Create new project"),
+                onPressed: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _CreateProjectDialog(
+                        onDialogClose: (Project? project) {
+                          Navigator.pop(context);
+                          if (project != null) {
+                            Navigator.push(
+                              context,
+                              DesktopPageRoute(builder: (context) {
+                                return NoteOverview(initialTitle: project.title);
+                              }),
+                            );
+                          }
+                        },
+                      );
                     },
                   );
                 },
-              );
-            },
-          ),
-          SizedBox(height: 20),
-          RaisedButton(
-            child: Text("Open existing project"),
-            onPressed: () async {
-              await showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return _OpenProjectDialog(
-                    onDialogClose: (Project? project) {
-                      Navigator.pop(context);
-                      if (project != null) {
-                        Navigator.push(
-                          context,
-                          DesktopPageRoute(builder: (context) {
-                            return NoteOverview(initialTitle: project.title);
-                          }),
-                        );
-                      }
+              ),
+              SizedBox(height: 20),
+              RaisedButton(
+                child: Text("Open existing project"),
+                onPressed: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _OpenProjectDialog(
+                        onDialogClose: (Project? project) {
+                          Navigator.pop(context);
+                          if (project != null) {
+                            Navigator.push(
+                              context,
+                              DesktopPageRoute(builder: (context) {
+                                return NoteOverview(initialTitle: project.title);
+                              }),
+                            );
+                          }
+                        },
+                      );
                     },
                   );
                 },
-              );
-            },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
