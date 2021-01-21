@@ -154,15 +154,4 @@ void main() {
 
     expect(project.notes.getRootNotes()[0].children[0], equals(noteToBeMoved));
   });
-
-  test("Should save reference to last project", () async {
-    var projectPath = "test_resources/test_project_nested.xml";
-    var configFilePath = "/tmp/${Uuid().v4()}";
-
-    await Project.saveLastProject(projectPath, configFilePath);
-
-    var fileContents = await File(configFilePath).readAsString();
-    print(fileContents);
-    expect(fileContents, contains(projectPath));
-  });
 }

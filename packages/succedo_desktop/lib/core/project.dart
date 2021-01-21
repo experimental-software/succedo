@@ -130,29 +130,6 @@ class Project {
     return File(normalizedPath);
   }
 
-  static Future<void> saveLastProject(String lastProjectPath, String configFilePath) async {
-    if (await File(configFilePath).exists()) {
-      throw "No support for loading existing config file, yet.";
-    } else {
-      var file = _buildFile(configFilePath);
-      if (!file.existsSync()) {
-        file.createSync(recursive: true);
-      }
-      final builder = XmlBuilder();
-      builder.processing("xml", "version='1.0'");
-      builder.element("config", nest: () {
-        builder.element("lastProject", nest: () {
-          builder.text(lastProjectPath);
-        });        
-      });
-      final projectXml = builder.buildDocument();
-
-      var sink = file.openWrite();
-      sink.write(projectXml.toXmlString(pretty: true));
-      sink.close();
-    }
-  }
-
   void decrementIndex(Note noteToBeMoved) {
     _changeIndex(noteToBeMoved, -1);
   }
