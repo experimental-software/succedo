@@ -5,6 +5,7 @@ import 'package:succedo_desktop/pages/note_overview.dart';
 import '../core/project.dart';
 import '../routing.dart';
 
+// TODO Rename to something like "Start page"
 class ProjectManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -151,7 +152,6 @@ class _OpenProjectDialogState extends State<_OpenProjectDialog> {
       }
     }
 
-    // TODO: Better error handling if file does not exist
     var path = projectPathController.text;
     var project = Project.load(path: path);
     widget.onDialogClose(project);

@@ -8,7 +8,7 @@ import 'core/project.dart';
 void main(List<String> arguments) {
   String projectPath;
   if (arguments.length == 1) projectPath = arguments[0];
-
+  // TODO Load last opened project
   runApp(SuccedoApp(
     initialProjectPath: projectPath,
   ));

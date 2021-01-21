@@ -82,7 +82,7 @@ class _NoteDetailsState extends State<NoteDetails> {
       builder: (BuildContext context) {
         return CreateNoteDialog(
           onDialogClose: () {
-            Project.current.save(); // TODO More generic handling for saving. Maybe add a save icon.
+            Project.current.save();
             Navigator.pop(context);
           },
         );

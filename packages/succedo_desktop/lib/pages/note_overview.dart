@@ -12,7 +12,6 @@ import 'note_details.dart';
 import '../core/project.dart';
 
 class NoteOverview extends StatefulWidget {
-  // TODO: The initial title can also be read from the current project.
   NoteOverview({required this.initialTitle});
 
   final String initialTitle;
@@ -43,6 +42,7 @@ class _NoteOverviewState extends State<NoteOverview> {
   void _addNote() async {
     Note? parent;
     var selectedKey = treeViewController.selectedKey;
+    // ignore: unnecessary_null_comparison
     if (selectedKey != null) {
       parent = noteRepository.findNote(selectedKey)!;
     }
@@ -94,7 +94,6 @@ class _NoteOverviewState extends State<NoteOverview> {
                     if (key == treeViewController.selectedKey) {
                       var note = noteRepository.findNote(key);
                       if (note == null) {
-                        // TODO: An alert dialog would be nice here.
                         print("[WARNING] Note '$key' not found.");
                         return;
                       }
@@ -135,12 +134,14 @@ class _NoteOverviewState extends State<NoteOverview> {
         endDrawer: Drawer(
           child: ListView(
             children: [
+              // TODO: Add action to create new project
               ListTile(
                 title: Text("Item 1"),
                 onTap: (){
                   Navigator.of(context).pop();
                 },
               ),
+              // TODO Add action to load existing project
               ListTile(
                 title: Text("Item 2"),
                 onTap: (){
