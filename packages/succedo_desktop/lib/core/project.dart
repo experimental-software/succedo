@@ -77,8 +77,7 @@ class Project {
       });
       if (note.details != null) {
         builder.element("details", nest: () {
-          // TODO Replace all is not needed
-          builder.text(note.details!.replaceAll('\\n', '\n'));
+          builder.text(note.details!);
         });
       }
       _addChildren(builder, note);
