@@ -5,6 +5,7 @@ import "package:succedo_desktop/core/note_repository.dart";
 import "package:xml/xml.dart";
 
 import "note.dart";
+import 'config.dart';
 
 class Project {
   static Project? _current;
@@ -40,6 +41,8 @@ class Project {
     }
 
     _current = this;
+
+    Config.saveLastProject(path, "~.succedo");
   }
 
   static Project get current {

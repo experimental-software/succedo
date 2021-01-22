@@ -4,10 +4,19 @@ import 'package:succedo_desktop/pages/note_overview.dart';
 import 'package:succedo_desktop/pages/project_management.dart';
 
 import 'core/project.dart';
+import 'core/config.dart';
 
-void main(List<String> arguments) {
+void main(List<String> arguments) async {
   String projectPath;
   if (arguments.length == 1) projectPath = arguments[0];
+
+  if (projectPath == null) {
+    String lastProject = await Config.loadLastProject("~/.succedo");
+    if (lastProject != null) {
+      projectPath = lastProject;
+    }
+  }
+
   // TODO Load last opened project
   runApp(SuccedoApp(
     initialProjectPath: projectPath,

@@ -8,6 +8,7 @@ class Config {
 
   static Future<void> saveLastProject(String lastProjectPath, String configFilePath) async {
     if (await File(configFilePath).exists()) {
+      // TODO Save last project into existing config file.
       throw "No support for loading existing config file, yet.";
     } else {
       var file = _buildFile(configFilePath);
@@ -53,9 +54,9 @@ class Config {
 
   static File _buildFile(String path) {
     var normalizedPath = path
-        .replaceAll("~", absolute(Platform.environment["HOME"]!))
+        .replaceAll("~", absolute(Platform.environment["HOME"]!) + "/")
     // As workaround for https://github.com/flutter/flutter/issues/68713, "*" is used as synonym for "~".
-        .replaceAll("*", absolute(Platform.environment["HOME"]!));
+        .replaceAll("*", absolute(Platform.environment["HOME"]!) + "/");
     return File(normalizedPath);
   }
 }
