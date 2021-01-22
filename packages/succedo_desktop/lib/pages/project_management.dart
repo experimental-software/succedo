@@ -5,8 +5,7 @@ import 'package:succedo_desktop/pages/note_overview.dart';
 import '../core/project.dart';
 import '../routing.dart';
 
-// TODO Rename to something like "Start page"
-class ProjectManagementPage extends StatelessWidget {
+class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

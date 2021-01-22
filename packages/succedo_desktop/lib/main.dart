@@ -47,7 +47,7 @@ class _SuccedoAppState extends State<SuccedoApp> {
 
   Widget _homePage() {
     if (widget.initialProjectPath == null) {
-      return ProjectManagementPage();
+      return StartPage();
     } else {
       return NoteOverview(initialTitle: Project.current.title);
     }
