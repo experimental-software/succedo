@@ -45,7 +45,6 @@ class _NoteDetailsState extends State<NoteDetails> {
         alignment: Alignment.topCenter,
         child: Column(
           children: [
-            _ActionButtons(note: widget.note),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(30),
@@ -64,6 +63,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                 ),
               ),
             ),
+            _ActionButtons(note: widget.note),
             SizedBox(height: 75)
           ],
         ),
