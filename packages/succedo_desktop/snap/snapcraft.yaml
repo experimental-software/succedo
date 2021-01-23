@@ -1,5 +1,5 @@
 name: succedo
-version: 0.1.2
+version: 0.2.0
 summary: Yet another task and note manager
 description: Helps to work of tasks successively.
 
@@ -22,7 +22,6 @@ apps:
     command: succedo_desktop
     extensions: [flutter-master]
     plugs:
-      - network
       - file-system-access
 
 parts:

@@ -13,7 +13,7 @@ Also see https://experimental-software.atlassian.net/wiki/spaces/~958839839/blog
 ### Install snap
 
 ```
-snap install --devmode ./succedo_0.1.2_amd64.snap
+snap install --devmode ./succedo_0.2.0_amd64.snap
 ```
 
 ## References
