@@ -9,7 +9,7 @@ class Config {
   static Future<void> saveLastProject(String lastProjectPath, [String configFilePath = "~/.succedo"]) async {
     if (await File(configFilePath).exists()) {
       var configDocument = (await _loadConfig(configFilePath))!;
-
+      throw "Not implemented yet";
     }
     _createNewConfig(lastProjectPath, configFilePath);
   }

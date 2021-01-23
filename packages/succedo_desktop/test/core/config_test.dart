@@ -7,15 +7,26 @@ import 'package:uuid/uuid.dart';
 
 void main() {
 
-  test("Should save reference to last project", () async {
-    var projectPath = "test_resources/test_project_nested.xml";
-    var configFilePath = "/tmp/${Uuid().v4()}";
+  group("saveLastProject", () {
+    test("Should save reference to last project", () async {
+      var projectPath = "test_resources/test_project_nested.xml";
+      var configPath = "/tmp/${Uuid().v4()}";
 
-    await Config.saveLastProject(projectPath, configFilePath);
+      await Config.saveLastProject(projectPath, configPath);
 
-    var fileContents = await File(configFilePath).readAsString();
-    print(fileContents);
-    expect(fileContents, contains(projectPath));
+      var fileContents = await File(configPath).readAsString();
+      print(fileContents);
+      expect(fileContents, contains(projectPath));
+    });
+
+    test("Should update reference to last project", () async {
+      var configPath = "/tmp/${Uuid().v4()}";
+      await File("test_resources/test_config.xml").copy(configPath);
+
+      _printFile(configPath);
+
+      await Config.saveLastProject("test_resources/test_project_simple.xml", configPath);
+    });
   });
 
   group("loadLastProject", () {
@@ -34,4 +45,10 @@ void main() {
       expect(lastProject, isNull);
     });
   });
+  
+
+}
+
+void _printFile(String filePath) {
+  print(File(filePath).readAsStringSync());
 }
