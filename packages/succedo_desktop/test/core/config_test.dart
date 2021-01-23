@@ -23,9 +23,9 @@ void main() {
       var configPath = "/tmp/${Uuid().v4()}";
       await File("test_resources/test_config.xml").copy(configPath);
 
-      _printFile(configPath);
-
       await Config.saveLastProject("test_resources/test_project_simple.xml", configPath);
+
+      expect(File(configPath).readAsStringSync(), contains("test_resources/test_project_simple.xml"));
     });
   });
 
@@ -49,6 +49,7 @@ void main() {
 
 }
 
-void _printFile(String filePath) {
-  print(File(filePath).readAsStringSync());
+Future<void> _printFile(String filePath) async {
+  print("File: $filePath\n");
+  print(await File(filePath).readAsString());
 }

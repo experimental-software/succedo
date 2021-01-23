@@ -1,5 +1,6 @@
 import "dart:io";
 
+import 'package:flutter/material.dart';
 import "package:path/path.dart";
 import "package:xml/xml.dart";
 
@@ -9,9 +10,28 @@ class Config {
   static Future<void> saveLastProject(String lastProjectPath, [String configFilePath = "~/.succedo"]) async {
     if (await File(configFilePath).exists()) {
       var configDocument = (await _loadConfig(configFilePath))!;
-      throw "Not implemented yet";
+
+      var configNode = configDocument.getElement("config");
+      if (configNode == null) {
+        throw "Could not find 'config' node";
+      }
+      var lastProjectNode = configNode.getElement("lastProject");
+      if (lastProjectNode == null) {
+        throw "Could not find 'lastProject' node.";
+      }
+      lastProjectNode.innerText = lastProjectPath;
+
+      var configFileContents = configDocument.toXmlString(pretty: true, preserveWhitespace: (_) => true);
+      var file = _buildFile(configFilePath);
+      if (!file.existsSync()) {
+        file.createSync(recursive: true);
+      }
+      var sink = file.openWrite(mode: FileMode.writeOnly);
+      sink.write(configFileContents);
+      await sink.close();
+    } else {
+      _createNewConfig(lastProjectPath, configFilePath);
     }
-    _createNewConfig(lastProjectPath, configFilePath);
   }
 
   static Future<void> _createNewConfig(String lastProjectPath, String configFilePath) async {
@@ -29,7 +49,7 @@ class Config {
     final projectXml = builder.buildDocument();
 
     var sink = file.openWrite();
-    sink.write(projectXml.toXmlString(pretty: true));
+    sink.write(projectXml.toXmlString(pretty: true, preserveWhitespace: (_) => true));
     sink.close();
   }
 
