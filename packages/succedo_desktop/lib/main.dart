@@ -17,7 +17,6 @@ void main(List<String> arguments) async {
     }
   }
 
-  // TODO Load last opened project
   runApp(SuccedoApp(
     initialProjectPath: projectPath,
   ));

@@ -6,48 +6,61 @@ import "package:xml/xml.dart";
 
 class Config {
 
-  static Future<void> saveLastProject(String lastProjectPath, String configFilePath) async {
+  static Future<void> saveLastProject(String lastProjectPath, [String configFilePath = "~/.succedo"]) async {
     if (await File(configFilePath).exists()) {
-      // TODO Save last project into existing config file.
-      throw "No support for loading existing config file, yet.";
-    } else {
-      var file = _buildFile(configFilePath);
-      if (!file.existsSync()) {
-        file.createSync(recursive: true);
-      }
-      final builder = XmlBuilder();
-      builder.processing("xml", "version='1.0'");
-      builder.element("config", nest: () {
-        builder.element("lastProject", nest: () {
-          builder.text(lastProjectPath);
-        });
-      });
-      final projectXml = builder.buildDocument();
+      var configDocument = (await _loadConfig(configFilePath))!;
 
-      var sink = file.openWrite();
-      sink.write(projectXml.toXmlString(pretty: true));
-      sink.close();
     }
+    _createNewConfig(lastProjectPath, configFilePath);
+  }
+
+  static Future<void> _createNewConfig(String lastProjectPath, String configFilePath) async {
+    var file = _buildFile(configFilePath);
+    if (!file.existsSync()) {
+      file.createSync(recursive: true);
+    }
+    final builder = XmlBuilder();
+    builder.processing("xml", "version='1.0'");
+    builder.element("config", nest: () {
+      builder.element("lastProject", nest: () {
+        builder.text(lastProjectPath);
+      });
+    });
+    final projectXml = builder.buildDocument();
+
+    var sink = file.openWrite();
+    sink.write(projectXml.toXmlString(pretty: true));
+    sink.close();
+  }
+
+  static Future<XmlDocument?> _loadConfig(String configFilePath) async {
+    var file = _buildFile(configFilePath);
+    if (!file.existsSync()) {
+      return null;
+    }
+    var fileContents = await file.readAsString();
+    return XmlDocument.parse(fileContents);
   }
 
   static Future<String?> loadLastProject(String configFilePath) async {
-    var file = _buildFile(configFilePath);
-    if (!file.existsSync()) {
-      return Future.value(null);
+    var configDocument = await _loadConfig(configFilePath);
+    if (configDocument == null) {
+      return null;
     }
-    var fileContents = await file.readAsString();
-    var document = XmlDocument.parse(fileContents);
-    var configNode = document.getElement("config");
+    var configNode = configDocument.getElement("config");
     if (configNode == null) {
-      return Future.value(null);
+      return null;
     }
     var lastProjectNode = configNode.getElement("lastProject");
     if (lastProjectNode == null) {
-      return Future.value(null);
+      return null;
     }
     var lastProject = lastProjectNode.innerText;
     if (lastProject.isEmpty) {
-      return Future.value(null);
+      return null;
+    }
+    if (!File(lastProject).existsSync()) {
+      return null;
     }
     return lastProject;
   }

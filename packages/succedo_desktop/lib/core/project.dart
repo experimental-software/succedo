@@ -21,6 +21,7 @@ class Project {
     save();
 
     _current = this;
+    Config.saveLastProject(path);
   }
 
   Project.load({required this.path}) {
@@ -42,7 +43,7 @@ class Project {
 
     _current = this;
 
-    Config.saveLastProject(path, "~.succedo");
+    Config.saveLastProject(path);
   }
 
   static Project get current {
