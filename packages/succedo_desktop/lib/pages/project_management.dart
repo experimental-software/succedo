@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:succedo_desktop/pages/note_overview.dart';
 
@@ -21,52 +22,15 @@ class StartPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 50),
+                // TODO Replace usage of deprecated "RaisedButton"
                 RaisedButton(
                   child: Text("Create new project"),
-                  onPressed: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return _CreateProjectDialog(
-                          onDialogClose: (Project? project) {
-                            Navigator.pop(context);
-                            if (project != null) {
-                              Navigator.push(
-                                context,
-                                DesktopPageRoute(builder: (context) {
-                                  return NoteOverview(initialTitle: project.title);
-                                }),
-                              );
-                            }
-                          },
-                        );
-                      },
-                    );
-                  },
+                  onPressed: () => showCreateProjectDialog(context),
                 ),
                 SizedBox(height: 20),
                 RaisedButton(
                   child: Text("Open existing project"),
-                  onPressed: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return _OpenProjectDialog(
-                          onDialogClose: (Project? project) {
-                            Navigator.pop(context);
-                            if (project != null) {
-                              Navigator.push(
-                                context,
-                                DesktopPageRoute(builder: (context) {
-                                  return NoteOverview(initialTitle: project.title);
-                                }),
-                              );
-                            }
-                          },
-                        );
-                      },
-                    );
-                  },
+                  onPressed: () => showOpenExistingProjectDialog(context),
                 ),
               ],
             ),
@@ -75,6 +39,48 @@ class StartPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Future showCreateProjectDialog(BuildContext context) async {
+  return await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return _CreateProjectDialog(
+        onDialogClose: (Project? project) {
+          Navigator.pop(context);
+          if (project != null) {
+            Navigator.push(
+              context,
+              DesktopPageRoute(builder: (context) {
+                return NoteOverview(initialTitle: project.title);
+              }),
+            );
+          }
+        },
+      );
+    },
+  );
+}
+
+Future showOpenExistingProjectDialog(BuildContext context) async {
+  return await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return _OpenProjectDialog(
+        onDialogClose: (Project? project) {
+          Navigator.pop(context);
+          if (project != null) {
+            Navigator.push(
+              context,
+              DesktopPageRoute(builder: (context) {
+                return NoteOverview(initialTitle: project.title);
+              }),
+            );
+          }
+        },
+      );
+    },
+  );
 }
 
 class _OpenProjectDialog extends StatefulWidget {
@@ -100,6 +106,7 @@ class _OpenProjectDialogState extends State<_OpenProjectDialog> {
           Container(
             height: 500,
             width: 800,
+            padding: EdgeInsets.all(25),
             child: Column(
               children: [
                 TextFormField(

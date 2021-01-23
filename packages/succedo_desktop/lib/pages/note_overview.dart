@@ -10,6 +10,7 @@ import '../widgets/editable_title.dart';
 import 'create_note_dialog.dart';
 import 'note_details.dart';
 import '../core/project.dart';
+import 'project_management.dart';
 
 class NoteOverview extends StatefulWidget {
   NoteOverview({required this.initialTitle});
@@ -134,19 +135,13 @@ class _NoteOverviewState extends State<NoteOverview> {
         endDrawer: Drawer(
           child: ListView(
             children: [
-              // TODO: Add action to create new project
               ListTile(
-                title: Text("Item 1"),
-                onTap: (){
-                  Navigator.of(context).pop();
-                },
+                title: Text("Create new project"),
+                onTap: () => showCreateProjectDialog(context),
               ),
-              // TODO Add action to load existing project
               ListTile(
-                title: Text("Item 2"),
-                onTap: (){
-                  Navigator.of(context).pop();
-                },
+                title: Text("Open existing project"),
+                onTap: () => showOpenExistingProjectDialog(context),
               ),
             ],
           ),
