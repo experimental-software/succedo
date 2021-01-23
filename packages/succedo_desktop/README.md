@@ -22,6 +22,7 @@ snap install --devmode ./succedo_0.2.0_amd64.snap
 
 ```
 flutter build macos --no-tree-shake-icons
+find . -name "*.app"
 mv ./build/macos/Build/Products/Release/succedo_desktop.app /Applications/succedo.app
 
 ls -la ./Library/Containers/com.example.succedoDesktop/Data/
