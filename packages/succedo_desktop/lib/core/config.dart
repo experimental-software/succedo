@@ -8,7 +8,8 @@ import "package:xml/xml.dart";
 class Config {
 
   static Future<void> saveLastProject(String lastProjectPath, [String configFilePath = "~/.succedo"]) async {
-    if (await File(configFilePath).exists()) {
+    lastProjectPath = lastProjectPath.replaceAll("~", absolute(Platform.environment["HOME"]!) + "/");
+    if (await _buildFile(configFilePath).exists()) {
       var configDocument = (await _loadConfig(configFilePath))!;
 
       var configNode = configDocument.getElement("config");
@@ -87,9 +88,7 @@ class Config {
 
   static File _buildFile(String path) {
     var normalizedPath = path
-        .replaceAll("~", absolute(Platform.environment["HOME"]!) + "/")
-    // As workaround for https://github.com/flutter/flutter/issues/68713, "*" is used as synonym for "~".
-        .replaceAll("*", absolute(Platform.environment["HOME"]!) + "/");
+        .replaceAll("~", absolute(Platform.environment["HOME"]!) + "/");
     return File(normalizedPath);
   }
 }
