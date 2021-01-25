@@ -15,7 +15,7 @@ Also see https://experimental-software.atlassian.net/wiki/spaces/~958839839/blog
 #### Install snap
 
 ```
-snap install --devmode ./succedo_0.2.0_amd64.snap
+snap install --devmode ./succedo_0.2.1_amd64.snap
 ```
 
 ### MacOS

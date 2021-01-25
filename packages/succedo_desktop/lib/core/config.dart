@@ -1,6 +1,5 @@
 import "dart:io";
 
-import 'package:flutter/material.dart';
 import "package:path/path.dart";
 import "package:xml/xml.dart";
 
@@ -27,6 +26,7 @@ class Config {
       if (!file.existsSync()) {
         file.createSync(recursive: true);
       }
+      print("[INFO] Saving config to ${file.path}");
       var sink = file.openWrite(mode: FileMode.writeOnly);
       sink.write(configFileContents);
       await sink.close();

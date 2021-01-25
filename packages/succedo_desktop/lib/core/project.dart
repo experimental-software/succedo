@@ -30,6 +30,7 @@ class Project {
     if (!file.existsSync()) {
       throw "File with path ${file.absolute.path} does not exist.";
     }
+    print("[INFO] Loading project from path ${file.path}");
     var fileContents = file.readAsStringSync();
     var document = XmlDocument.parse(fileContents);
     var projectNode = document.getElement("project");
@@ -51,6 +52,7 @@ class Project {
   }
 
   Future save() async {
+    print("[INFO] Saving project to path $path");
     var file = _buildFile(path);
     if (!file.existsSync()) {
       file.createSync(recursive: true);
@@ -130,6 +132,7 @@ class Project {
         .replaceAll("~", absolute(Platform.environment["HOME"]!))
         // As workaround for https://github.com/flutter/flutter/issues/68713, "*" is used as synonym for "~".
         .replaceAll("*", absolute(Platform.environment["HOME"]!));
+    print("[DEBUG] Build path: $normalizedPath");
     return File(normalizedPath);
   }
 
