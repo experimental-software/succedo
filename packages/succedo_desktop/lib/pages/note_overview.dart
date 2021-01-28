@@ -164,6 +164,12 @@ class _NoteOverviewState extends State<NoteOverview> {
     if (selectedKey != null) {
       var selectedNote = noteRepository.findNote(selectedKey)!;
 
+      if (event.data.physicalKey == PhysicalKeyboardKey.escape) {
+        treeViewController = treeViewController.copyWith(selectedKey: null);
+        updateTreeView();
+        return;
+      }
+
       if (event.isControlOrCommandPressed && event.data.keyLabel == "x") {
         noteInTray = selectedNote;
         noteRepository.remove(selectedNote);
