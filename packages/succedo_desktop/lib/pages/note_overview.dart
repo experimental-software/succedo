@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_treeview/tree_view.dart';
@@ -162,20 +164,26 @@ class _NoteOverviewState extends State<NoteOverview> {
     if (selectedKey != null) {
       var selectedNote = noteRepository.findNote(selectedKey)!;
 
-      if (event.isControlPressed && event.character == "x") {
+      if (event.data.physicalKey == PhysicalKeyboardKey.escape) {
+        treeViewController = treeViewController.copyWith(selectedKey: null);
+        updateTreeView();
+        return;
+      }
+
+      if (event.isControlOrCommandPressed && event.data.keyLabel == "x") {
         noteInTray = selectedNote;
         noteRepository.remove(selectedNote);
         treeViewController = treeViewController.copyWith(selectedKey: null);
         updateTreeView();
         return;
       }
-      if (event.isControlPressed && event.character == "v" && noteInTray != null) {
+      if (event.isControlOrCommandPressed && event.data.keyLabel == "v" && noteInTray != null) {
         noteRepository.registerChild(noteInTray!, selectedNote.id);
         noteInTray = null;
         updateTreeView();
         return;
       }
-      if (event.isControlPressed && event.isShiftPressed && event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
+      if (event.isControlOrCommandPressed && event.isShiftPressed && event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
         Project.current.decrementIndex(selectedNote);
         setState(() {
           treeViewController = TreeViewController(
@@ -185,7 +193,7 @@ class _NoteOverviewState extends State<NoteOverview> {
         });
         return;
       }
-      if (event.isControlPressed && event.isShiftPressed && event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
+      if (event.isControlOrCommandPressed && event.isShiftPressed && event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
         Project.current.incrementIndex(selectedNote);
         setState(() {
           treeViewController = TreeViewController(
@@ -196,12 +204,22 @@ class _NoteOverviewState extends State<NoteOverview> {
         return;
       }
     } else {
-      if (event.isControlPressed && event.character == "v" && noteInTray != null) {
+      if (event.isControlOrCommandPressed && event.character == "v" && noteInTray != null) {
         noteRepository.registerChild(noteInTray!, null);
         noteInTray = null;
         updateTreeView();
         return;
       }
+    }
+  }
+}
+
+extension _CustomEventQueries on RawKeyEvent {
+  bool get isControlOrCommandPressed {
+    if (Platform.isMacOS) {
+      return isMetaPressed;
+    } else {
+      return isControlPressed;
     }
   }
 }
