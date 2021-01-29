@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:succedo_desktop/core/note.dart';
-import 'package:succedo_desktop/core/note_repository.dart';
+import "package:flutter/material.dart";
+import "package:succedo_desktop/core/note.dart";
+import "package:succedo_desktop/core/note_repository.dart";
 
-import '../widgets/editable_title.dart';
-import 'create_note_dialog.dart';
-import '../core/project.dart';
+import "../widgets/editable_note_title.dart";
+import "create_note_dialog.dart";
+import "../core/project.dart";
 
 class NoteDetails extends StatefulWidget {
   final Note note;
@@ -31,10 +30,11 @@ class _NoteDetailsState extends State<NoteDetails> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: EditableTitle(
-          initialTitle: widget.note.title,
+          note: widget.note,
           onTitleChanged: (newTitle) {
             widget.note.title = newTitle;
             Project.current.save();
@@ -70,7 +70,7 @@ class _NoteDetailsState extends State<NoteDetails> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addNote,
-        tooltip: 'Add note',
+        tooltip: "Add note",
         child: Icon(Icons.add),
       ),
     );

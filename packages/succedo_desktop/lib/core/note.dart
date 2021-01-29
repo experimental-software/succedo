@@ -1,3 +1,5 @@
+import 'package:succedo_desktop/core/project.dart';
+
 class Note {
   String id;
   String title;
@@ -19,5 +21,23 @@ class Note {
 
   bool removeChild(Note note) {
     return children.remove(note);
+  }
+
+  Note? get parent {
+    return Project.current.notes.findParentNote(this);
+  }
+
+  List<Note> get ancestors {
+    return _ancestors(this, []);
+  }
+
+  static List<Note> _ancestors(Note note, List<Note> ancestors) {
+    var parent = note.parent;
+    if (parent != null) {
+      ancestors.add(parent);
+      return _ancestors(parent, ancestors);
+    } else {
+      return ancestors;
+    }
   }
 }
