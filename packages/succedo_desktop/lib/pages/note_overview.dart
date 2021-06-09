@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_treeview/tree_view.dart';
+import 'package:flutter_treeview/flutter_treeview.dart';
 import 'package:open_url/open_url.dart';
 import 'package:succedo_desktop/core/note.dart';
 import 'package:succedo_desktop/core/note_repository.dart';
@@ -230,7 +230,6 @@ List<Node> _toNodes(List<Note> notes) {
     Node node = Node(
       label: note.title,
       key: note.id,
-      icon: NodeIcon.fromIconData(Icons.build),
       children: _toNodes(note.children),
     );
     result.add(node);
