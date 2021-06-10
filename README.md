@@ -1,20 +1,6 @@
 # Succedo
 
-> Life is a series of interruptions.
-
-Succedo helps to cope with that by keeping track of the storm of ideas, tasks, and appointments.
-There is a mobile app for note input and reminders.
-There is a web app for organizing everything.
-And maybe there will also be a desktop app which can work independently without a remote database.
-
-
-## Research
-
-The implementation of Succeedo is inspirired by the following concepts:
-
-- Lean
-- GTD
-- The Power of Habit
+Succedo is a simple TODO apps helps to work of tasks successively by maintaining a list of tasks and a task details screen.
 
 
 ## Alternatives
