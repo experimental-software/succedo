@@ -1,8 +1,12 @@
+# Succedo
 
+Succedo is a simple desktop app which helps to work of tasks successively.
 
-# Succedo Desktop App
+## Dependencies
 
-## Deployment
+In order to build this project, you need to have [Flutter](https://www.flutter.dev) installed.
+
+## Build
 
 ### Ubuntu
 
@@ -31,13 +35,11 @@ cp -r ./build/macos/Build/Products/Release/succedo_desktop.app /Applications/suc
 # ls -la ./Library/Containers/com.example.succedoDesktop/Data/
 ```
 
-
 #### Run with console output
 
 ```
 /Applications/succedo_desktop.app/Contents/MacOS/succedo_desktop
 ```
-
 
 ## References
 
@@ -45,22 +47,19 @@ cp -r ./build/macos/Build/Products/Release/succedo_desktop.app /Applications/suc
 - https://flutter.dev/desktop
 
 
-# Succedo
-
-Succedo is a simple TODO apps helps to work of tasks successively by maintaining a list of tasks and a task details screen.
-
-
 ## Alternatives
 
-There are hundreds of other programs for task and note management.
-If Succedo is not what you need or want, then you e.g. might want to have a look at those:
+If Succedo is not what you need, then you might have a look at those task and note management tools:
 
-- https://todoist.com/app/
-- https://to-do.microsoft.com/tasks/
-- https://www.rememberthemilk.com/
-- https://trello.com/en
-- https://www.taskcoach.org/
-- https://www.wunderlist.com/
-- https://culturedcode.com/things/
-- https://orgmode.org/
-- https://taskwarrior.org/
+- https://todoist.com
+- https://www.rememberthemilk.com
+- https://trello.com
+- https://www.taskcoach.org
+- https://culturedcode.com/things
+- https://to-do.microsoft.com/tasks
+- https://orgmode.org
+- https://taskwarrior.org
+
+## License
+
+MIT
