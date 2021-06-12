@@ -35,8 +35,13 @@ class TaskRepository {
     return null;
   }
 
-  void add(Task task) {
+  void append(Task task) {
     _tasks.add(task);
+    _index(_taskIndex, [task]);
+  }
+
+  void prepend(Task task) {
+    _tasks.insert(0, task);
     _index(_taskIndex, [task]);
   }
 

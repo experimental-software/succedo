@@ -23,10 +23,12 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
   final TextEditingController detailsController = TextEditingController();
   final TaskRepository taskRepository = Project.current.tasks;
 
+  bool isTopPriority = false;
+
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text("Create task"),
+      title: Text(hasParentTask() ? "Add subtask" : "Add task"),
       children: <Widget>[
         ConstrainedBox(
           constraints: BoxConstraints.tight(Size(800, 400)),
@@ -65,24 +67,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                   SizedBox(
                     height: 30,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      RaisedButton(
-                        child: Text("Cancel"),
-                        onPressed: cancel,
-                      ),
-                      SizedBox(width: 10),
-                      RaisedButton(
-                        color: Theme.of(context).accentColor,
-                        child: Text(
-                          "Save",
-                          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
-                        ),
-                        onPressed: save,
-                      )
-                    ],
-                  ),
+                  _buildActionButtons(context),
                 ],
               ),
             ),
@@ -90,6 +75,57 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
         ),
       ],
     );
+  }
+
+  Row _buildActionButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            if (!hasParentTask()) _buildTopPriorityToggle(),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            RaisedButton(
+              child: Text("Cancel"),
+              onPressed: cancel,
+            ),
+            SizedBox(width: 10),
+            RaisedButton(
+              color: Theme.of(context).accentColor,
+              child: Text(
+                "Save",
+                style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              ),
+              onPressed: save,
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Row _buildTopPriorityToggle() {
+    return Row(
+      children: [
+        Checkbox(
+          value: isTopPriority,
+          onChanged: (bool? value) {
+            setState(() {
+              isTopPriority = value!;
+            });
+          },
+        ),
+        Text("add to top of backlog"),
+      ],
+    );
+  }
+
+  bool hasParentTask() {
+    return widget.parent != null;
   }
 
   void save() {
@@ -104,7 +140,11 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
         if (widget.parent != null) {
           taskRepository.registerChild(task, widget.parent!.id);
         } else {
-          taskRepository.add(task);
+          if (isTopPriority) {
+            taskRepository.prepend(task);
+          } else {
+            taskRepository.append(task);
+          }
         }
         Project.current.save();
         widget.onDialogClose();
