@@ -9,6 +9,7 @@
 .history
 .svn/
 *.snap
+nohup.out
 
 # IntelliJ related
 *.iml

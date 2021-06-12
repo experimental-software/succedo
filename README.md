@@ -39,6 +39,19 @@ cp -r ./build/macos/Build/Products/Release/succedo.app /Applications/succedo.app
 /Applications/succedo.app/Contents/MacOS/succedo
 ```
 
+#### Run in background
+
+```
+nohup /Applications/succedo.app/Contents/MacOS/succedo > /tmp/succedo.log 2>&1 &
+```
+
+#### Run in background with specific project
+
+```
+PROJECT=~/doc/WIP/example.xml
+nohup /Applications/succedo.app/Contents/MacOS/succedo $PROJECT > /tmp/succedo.log 2>&1 &
+```
+
 ## References
 
 - https://snapcraft.io/docs/gtk3-applications
