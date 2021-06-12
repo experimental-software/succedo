@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:succedo/core/note.dart';
+import 'package:succedo/core/task.dart';
 
 class EditableTitle extends StatefulWidget {
-  final Note note;
+  final Task task;
   final Function onTitleChanged;
 
-  EditableTitle({required this.note, required this.onTitleChanged});
+  EditableTitle({required this.task, required this.onTitleChanged});
 
   @override
   _EditableTitleState createState() => _EditableTitleState(onTitleChanged: onTitleChanged);
@@ -23,16 +23,16 @@ class _EditableTitleState extends State<EditableTitle> {
   void initState() {
     super.initState();
 
-    titleController.text = widget.note.title;
+    titleController.text = widget.task.title;
   }
 
   String _displayedTitle() {
-    var ancestorTitles = widget.note.ancestors.reversed.map((e) => e.title + " > ").toList();
+    var ancestorTitles = widget.task.ancestors.reversed.map((e) => e.title + " > ").toList();
     var result = "";
     for (var ancestorTitle in ancestorTitles) {
       result += ancestorTitle;
     }
-    result += widget.note.title;
+    result += widget.task.title;
     return result;
   }
 
@@ -48,9 +48,9 @@ class _EditableTitleState extends State<EditableTitle> {
           ),
           onSubmitted: (value) {
             if (value.trim().isNotEmpty) {
-              widget.note.title = value;
+              widget.task.title = value;
             }
-            onTitleChanged(widget.note.title);
+            onTitleChanged(widget.task.title);
             setState(() {
               editMode = false;
             });

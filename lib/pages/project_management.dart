@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:succedo/pages/note_overview.dart';
+import 'package:succedo/pages/task_overview.dart';
 
 import '../core/project.dart';
 import '../routing.dart';
@@ -52,7 +52,7 @@ Future showCreateProjectDialog(BuildContext context) async {
             Navigator.push(
               context,
               DesktopPageRoute(builder: (context) {
-                return NoteOverview(initialTitle: project.title);
+                return TaskOverview(initialTitle: project.title);
               }),
             );
           }
@@ -73,7 +73,7 @@ Future showOpenExistingProjectDialog(BuildContext context) async {
             Navigator.push(
               context,
               DesktopPageRoute(builder: (context) {
-                return NoteOverview(initialTitle: project.title);
+                return TaskOverview(initialTitle: project.title);
               }),
             );
           }

@@ -2,12 +2,10 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:succedo/core/note.dart';
+import 'package:succedo/core/task.dart';
 import 'package:succedo/core/project.dart';
 import "package:test/test.dart";
 import 'package:uuid/uuid.dart';
-
-
 
 void main() {
   test("Should create new project", () async {
@@ -23,12 +21,12 @@ void main() {
     expect(await File(path).exists(), isTrue);
   });
 
-  test("Should save project with single note", () async {
+  test("Should save project with single task", () async {
     final directory = await Directory.systemTemp.createTemp();
     var path = "${directory.path}/subdir/example.xml";
     var name = "Test project";
     Project.create(title: name, path: path);
-    Project.current.notes.add(Note(id: "7d4a6cdf-4d30-4f19-a313-afd2a089667e", title: "Test note"));
+    Project.current.tasks.add(Task(id: "7d4a6cdf-4d30-4f19-a313-afd2a089667e", title: "Test note"));
 
     Project.current.save();
 
@@ -51,16 +49,16 @@ void main() {
     var path = "${directory.path}/subdir/example.xml";
     var name = "Test project";
     Project.create(title: name, path: path);
-    var parentNote = Note(id: "218f12c9-9fc3-45b9-8a12-a540046f987f", title: "Parent note");
-    var childNote1 = Note(id: "79d71496-6799-4212-8247-a93152210410", title: "Child note 1");
-    var nestedChildNote = Note(id: "07002cde-0097-4ddc-a685-ca505fafd8e1", title: "Nested child note");
-    var childNote2 = Note(id: "07002cde-0097-4ddc-a685-ca505fafd8e1", title: "Child note 2");
-    var childNote3 = Note(id: "35ec52b6-6685-4fa3-ae5b-eca95bf11600", title: "Child note 3");
+    var parentNote = Task(id: "218f12c9-9fc3-45b9-8a12-a540046f987f", title: "Parent note");
+    var childNote1 = Task(id: "79d71496-6799-4212-8247-a93152210410", title: "Child note 1");
+    var nestedChildNote = Task(id: "07002cde-0097-4ddc-a685-ca505fafd8e1", title: "Nested child note");
+    var childNote2 = Task(id: "07002cde-0097-4ddc-a685-ca505fafd8e1", title: "Child note 2");
+    var childNote3 = Task(id: "35ec52b6-6685-4fa3-ae5b-eca95bf11600", title: "Child note 3");
     parentNote.children.add(childNote1);
     parentNote.children.add(childNote2);
     parentNote.children.add(childNote3);
     childNote1.children.add(nestedChildNote);
-    Project.current.notes.add(parentNote);
+    Project.current.tasks.add(parentNote);
 
     Project.current.save();
 
@@ -100,9 +98,9 @@ void main() {
     var project = Project.load(path: path);
 
     expect(project.title, equals("Test project"));
-    expect(project.notes.getRootNotes().length, equals(1));
-    expect(project.notes.getRootNotes()[0].title, equals("Test note"));
-    expect(project.notes.getRootNotes()[0].details, equals("Test note details"));
+    expect(project.tasks.getRootTasks().length, equals(1));
+    expect(project.tasks.getRootTasks()[0].title, equals("Test note"));
+    expect(project.tasks.getRootTasks()[0].details, equals("Test note details"));
   });
 
   test("Should deserialize project with nested notes", () {
@@ -111,8 +109,8 @@ void main() {
     var project = Project.load(path: path);
 
     expect(project.title, equals("Nested test project"));
-    expect(project.notes.getRootNotes().length, equals(1));
-    var parentNote = project.notes.getRootNotes()[0];
+    expect(project.tasks.getRootTasks().length, equals(1));
+    var parentNote = project.tasks.getRootTasks()[0];
     expect(parentNote.title, equals("Parent note"));
     expect(parentNote.children.length, equals(3));
     expect(parentNote.children[0].title, equals("Child note 1"));
@@ -126,32 +124,32 @@ void main() {
   test("Should move root note up", () {
     var path = "test_resources/test_project_multiple_root_notes.xml";
     var project = Project.load(path: path);
-    var noteToBeMoved = project.notes.getRootNotes()[2];
+    var noteToBeMoved = project.tasks.getRootTasks()[2];
 
     project.decrementIndex(noteToBeMoved);
 
-    expect(project.notes.getRootNotes()[1], equals(noteToBeMoved));
-    expect(project.notes.getRootNotes().length, equals(3));
+    expect(project.tasks.getRootTasks()[1], equals(noteToBeMoved));
+    expect(project.tasks.getRootTasks().length, equals(3));
   });
 
   test("Should move root note down", () {
     var path = "test_resources/test_project_multiple_root_notes.xml";
     var project = Project.load(path: path);
-    var noteToBeMoved = project.notes.getRootNotes()[0];
+    var noteToBeMoved = project.tasks.getRootTasks()[0];
 
     project.incrementIndex(noteToBeMoved);
 
-    expect(project.notes.getRootNotes()[1], equals(noteToBeMoved));
-    expect(project.notes.getRootNotes().length, equals(3));
+    expect(project.tasks.getRootTasks()[1], equals(noteToBeMoved));
+    expect(project.tasks.getRootTasks().length, equals(3));
   });
 
   test("Should move child note up", () {
     var projectPath = "test_resources/test_project_nested.xml";
     var project = Project.load(path: projectPath);
-    var noteToBeMoved = project.notes.getRootNotes()[0].children[1];
+    var noteToBeMoved = project.tasks.getRootTasks()[0].children[1];
 
     project.decrementIndex(noteToBeMoved);
 
-    expect(project.notes.getRootNotes()[0].children[0], equals(noteToBeMoved));
+    expect(project.tasks.getRootTasks()[0].children[0], equals(noteToBeMoved));
   });
 }

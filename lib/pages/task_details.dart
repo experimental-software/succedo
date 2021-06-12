@@ -1,34 +1,32 @@
 import "package:flutter/material.dart";
 import 'package:open_url/open_url.dart';
-import "package:succedo/core/note.dart";
-import "package:succedo/core/note_repository.dart";
+import "package:succedo/core/task.dart";
+import "package:succedo/core/task_repository.dart";
 
 import "../core/project.dart";
-import "../widgets/editable_note_title.dart";
-import "create_note_dialog.dart";
+import "../widgets/editable_task_title.dart";
+import "create_task_dialog.dart";
 
-// TODO: Rename to "TaskDetails"
-class NoteDetails extends StatefulWidget {
-  // TODO: Rename to "task"
-  final Note note;
+class TaskDetails extends StatefulWidget {
+  final Task task;
 
-  NoteDetails(this.note);
+  TaskDetails(this.task);
 
   @override
-  _NoteDetailsState createState() => _NoteDetailsState();
+  _TaskDetailsState createState() => _TaskDetailsState();
 }
 
-class _NoteDetailsState extends State<NoteDetails> {
-  final NoteRepository noteRepository = Project.current.notes;
+class _TaskDetailsState extends State<TaskDetails> {
+  final TaskRepository taskRepository = Project.current.tasks;
   final descriptionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    var noteDetails = widget.note.details;
-    if (noteDetails != null) {
-      descriptionController.text = noteDetails;
+    var taskDetails = widget.task.details;
+    if (taskDetails != null) {
+      descriptionController.text = taskDetails;
     }
   }
 
@@ -58,7 +56,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                 ),
                 style: TextStyle(fontSize: 20),
                 onChanged: (value) {
-                  widget.note.details = value;
+                  widget.task.details = value;
                   Project.current.save();
                   setState(() {});
                 },
@@ -74,7 +72,7 @@ class _NoteDetailsState extends State<NoteDetails> {
   FloatingActionButton _buildFloatingActionButton() {
     return FloatingActionButton(
       onPressed: () {
-        noteRepository.remove(widget.note);
+        taskRepository.remove(widget.task);
         Project.current.save();
         Navigator.of(context).pop();
       },
@@ -90,9 +88,9 @@ class _NoteDetailsState extends State<NoteDetails> {
         onPressed: () => Navigator.pop(context),
       ),
       title: EditableTitle(
-        note: widget.note,
+        task: widget.task,
         onTitleChanged: (newTitle) {
-          widget.note.title = newTitle;
+          widget.task.title = newTitle;
           Project.current.save();
         },
       ),
@@ -133,7 +131,7 @@ class _NoteDetailsState extends State<NoteDetails> {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CreateNoteDialog(
+        return CreateTaskDialog(
           onDialogClose: () {
             Project.current.save();
             Navigator.pop(context);
@@ -147,8 +145,8 @@ class _NoteDetailsState extends State<NoteDetails> {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CreateNoteDialog(
-          parent: widget.note,
+        return CreateTaskDialog(
+          parent: widget.task,
           onDialogClose: () {
             Project.current.save();
             Navigator.pop(context);

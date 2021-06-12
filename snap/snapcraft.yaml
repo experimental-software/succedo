@@ -1,6 +1,6 @@
 name: succedo
 version: 0.2.1
-summary: Yet another task and note manager
+summary: Desktop app for personal task management
 description: Helps to work of tasks successively.
 
 confinement: devmode
