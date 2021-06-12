@@ -158,29 +158,3 @@ class _NoteDetailsState extends State<NoteDetails> {
     );
   }
 }
-
-class _ActionButtons extends StatelessWidget {
-  final NoteRepository noteRepository = Project.current.notes;
-  final Note note;
-
-  _ActionButtons({required this.note});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 20, 20, 0),
-      child: Row(
-        children: [
-          RaisedButton(
-            onPressed: () {
-              noteRepository.remove(note);
-              Project.current.save();
-              Navigator.of(context).pop();
-            },
-            child: Text("Done"),
-          ),
-        ],
-      ),
-    );
-  }
-}
