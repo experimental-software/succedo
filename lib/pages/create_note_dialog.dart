@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 
 import '../core/project.dart';
 
+// TODO: Rename to "CreateTaskDialog"
 class CreateNoteDialog extends StatefulWidget {
   final Function onDialogClose;
   final Note? parent;
@@ -26,7 +27,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text("Create note"),
+      title: Text("Create task"),
       children: <Widget>[
         ConstrainedBox(
           constraints: BoxConstraints.tight(Size(800, 400)),
