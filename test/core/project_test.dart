@@ -26,7 +26,7 @@ void main() {
     var path = "${directory.path}/subdir/example.xml";
     var name = "Test project";
     Project.create(title: name, path: path);
-    Project.current.tasks.add(Task(id: "7d4a6cdf-4d30-4f19-a313-afd2a089667e", title: "Test note"));
+    Project.current.tasks.append(Task(id: "7d4a6cdf-4d30-4f19-a313-afd2a089667e", title: "Test note"));
 
     Project.current.save();
 
@@ -58,7 +58,7 @@ void main() {
     parentNote.children.add(childNote2);
     parentNote.children.add(childNote3);
     childNote1.children.add(nestedChildNote);
-    Project.current.tasks.add(parentNote);
+    Project.current.tasks.append(parentNote);
 
     Project.current.save();
 

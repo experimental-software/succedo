@@ -39,7 +39,7 @@ class Project {
     var notesXml = projectNode.getElement("notes");
     if (notesXml != null) {
       for (var noteXml in notesXml.findElements("note")) {
-        tasks.add(_deserializeNote(noteXml));
+        tasks.append(_deserializeNote(noteXml));
       }
     }
 
