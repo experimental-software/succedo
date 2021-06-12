@@ -9,7 +9,6 @@ import "create_note_dialog.dart";
 
 // TODO: Rename to "TaskDetails"
 class NoteDetails extends StatefulWidget {
-
   // TODO: Rename to "task"
   final Note note;
 
@@ -20,6 +19,7 @@ class NoteDetails extends StatefulWidget {
 }
 
 class _NoteDetailsState extends State<NoteDetails> {
+  final NoteRepository noteRepository = Project.current.notes;
   final descriptionController = TextEditingController();
 
   @override
@@ -35,51 +35,66 @@ class _NoteDetailsState extends State<NoteDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: EditableTitle(
-          note: widget.note,
-          onTitleChanged: (newTitle) {
-            widget.note.title = newTitle;
-            Project.current.save();
-          },
-        ),
-      ),
+      appBar: _buildAppBar(context),
       endDrawer: _buildDrawer(),
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(30),
-                child: TextField(
-                  controller: descriptionController,
-                  maxLines: 100,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                  ),
-                  style: TextStyle(fontSize: 20),
-                  onChanged: (value) {
-                    widget.note.details = value;
-                    Project.current.save();
-                    setState(() {});
-                  },
+      body: _buildBody(),
+      floatingActionButton: _buildFloatingActionButton(),
+    );
+  }
+
+  Align _buildBody() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(30),
+              child: TextField(
+                controller: descriptionController,
+                maxLines: 100,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                 ),
+                style: TextStyle(fontSize: 20),
+                onChanged: (value) {
+                  widget.note.details = value;
+                  Project.current.save();
+                  setState(() {});
+                },
               ),
             ),
-            _ActionButtons(note: widget.note),
-            SizedBox(height: 75)
-          ],
-        ),
+          ),
+          SizedBox(height: 75)
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addTask,
-        tooltip: "Add note",
-        child: Icon(Icons.add),
+    );
+  }
+
+  FloatingActionButton _buildFloatingActionButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        noteRepository.remove(widget.note);
+        Project.current.save();
+        Navigator.of(context).pop();
+      },
+      tooltip: "Delete task",
+      child: Icon(Icons.done),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () => Navigator.pop(context),
+      ),
+      title: EditableTitle(
+        note: widget.note,
+        onTitleChanged: (newTitle) {
+          widget.note.title = newTitle;
+          Project.current.save();
+        },
       ),
     );
   }
@@ -113,7 +128,7 @@ class _NoteDetailsState extends State<NoteDetails> {
       ),
     );
   }
-  
+
   Future<void> _addTask() async {
     await showDialog(
       context: context,
@@ -140,32 +155,6 @@ class _NoteDetailsState extends State<NoteDetails> {
           },
         );
       },
-    );
-  }
-}
-
-class _ActionButtons extends StatelessWidget {
-  final NoteRepository noteRepository = Project.current.notes;
-  final Note note;
-
-  _ActionButtons({required this.note});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 20, 20, 0),
-      child: Row(
-        children: [
-          RaisedButton(
-            onPressed: () {
-              noteRepository.remove(note);
-              Project.current.save();
-              Navigator.of(context).pop();
-            },
-            child: Text("Done"),
-          ),
-        ],
-      ),
     );
   }
 }
