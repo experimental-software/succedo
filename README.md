@@ -44,6 +44,11 @@ cp -r ./build/macos/Build/Products/Release/succedo.app /Applications/succedo.app
 - https://snapcraft.io/docs/gtk3-applications
 - https://flutter.dev/desktop
 
+## Development
+
+### Design principles
+
+> Clean code always looks like it was written by someone who cares. There is nothing obvious you can do to make it better. - [Michael Feathers](https://cvuorinen.net/2014/04/what-is-clean-code-and-why-should-you-care/)
 
 ## Alternatives
 
