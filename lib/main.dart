@@ -1,6 +1,6 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
-import 'package:succedo/pages/note_overview.dart';
+import 'package:succedo/pages/task_overview.dart';
 import 'package:succedo/pages/project_management.dart';
 
 import 'core/project.dart';
@@ -43,11 +43,10 @@ class _SuccedoAppState extends State<SuccedoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Succedo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //home: ProjectManagementPage(),
       home: _homePage(),
       debugShowCheckedModeBanner: false,
     );
@@ -57,7 +56,7 @@ class _SuccedoAppState extends State<SuccedoApp> {
     if (widget.initialProjectPath == null) {
       return StartPage();
     } else {
-      return NoteOverview(initialTitle: Project.current.title);
+      return TaskOverview(initialTitle: Project.current.title);
     }
   }
 }

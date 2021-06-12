@@ -1,13 +1,13 @@
 import 'package:succedo/core/project.dart';
 
-class Note {
+class Task {
   String id;
   String title;
   String? details;
   String? icon;
-  List<Note> children;
+  List<Task> children;
 
-  Note({
+  Task({
     required this.id,
     required this.title,
     this.details,
@@ -19,20 +19,20 @@ class Note {
     }
   }
 
-  bool removeChild(Note note) {
-    return children.remove(note);
+  bool removeChild(Task task) {
+    return children.remove(task);
   }
 
-  Note? get parent {
-    return Project.current.notes.findParentNote(this);
+  Task? get parent {
+    return Project.current.tasks.findParentTask(this);
   }
 
-  List<Note> get ancestors {
+  List<Task> get ancestors {
     return _ancestors(this, []);
   }
 
-  static List<Note> _ancestors(Note note, List<Note> ancestors) {
-    var parent = note.parent;
+  static List<Task> _ancestors(Task task, List<Task> ancestors) {
+    var parent = task.parent;
     if (parent != null) {
       ancestors.add(parent);
       return _ancestors(parent, ancestors);

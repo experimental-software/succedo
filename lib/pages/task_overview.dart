@@ -4,36 +4,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_treeview/flutter_treeview.dart';
 import 'package:open_url/open_url.dart';
-import 'package:succedo/core/note.dart';
-import 'package:succedo/core/note_repository.dart';
+import 'package:succedo/core/task.dart';
+import 'package:succedo/core/task_repository.dart';
 import 'package:succedo/routing.dart';
 
 import '../widgets/editable_title.dart';
-import 'create_note_dialog.dart';
-import 'note_details.dart';
+import 'create_task_dialog.dart';
+import 'task_details.dart';
 import '../core/project.dart';
 import 'project_management.dart';
 
-class NoteOverview extends StatefulWidget {
-  NoteOverview({required this.initialTitle});
+class TaskOverview extends StatefulWidget {
+  TaskOverview({required this.initialTitle});
 
   final String initialTitle;
 
   @override
-  _NoteOverviewState createState() => _NoteOverviewState();
+  _TaskOverviewState createState() => _TaskOverviewState();
 }
 
-class _NoteOverviewState extends State<NoteOverview> {
-  NoteRepository noteRepository = Project.current.notes;
+class _TaskOverviewState extends State<TaskOverview> {
+  TaskRepository taskRepository = Project.current.tasks;
   FocusNode keyboardFocus = FocusNode();
-  Note? noteInTray;
+  Task? taskInTray;
 
   late TreeViewController treeViewController;
 
   @override
   void initState() {
     super.initState();
-    treeViewController = TreeViewController(children: _toNodes(noteRepository.getRootNotes()));
+    treeViewController = TreeViewController(children: _toTaskNodes(taskRepository.getRootTasks()));
   }
 
   @override
@@ -42,19 +42,19 @@ class _NoteOverviewState extends State<NoteOverview> {
     super.dispose();
   }
 
-  void _addNote() async {
-    Note? parent;
+  void _addTask() async {
+    Task? parent;
     var selectedKey = treeViewController.selectedKey;
     // ignore: unnecessary_null_comparison
     if (selectedKey != null) {
-      parent = noteRepository.findNote(selectedKey)!;
+      parent = taskRepository.findTask(selectedKey)!;
     }
 
     keyboardFocus.unfocus();
     await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CreateNoteDialog(
+        return CreateTaskDialog(
           parent: parent,
           onDialogClose: () => Navigator.pop(context),
         );
@@ -95,16 +95,16 @@ class _NoteOverviewState extends State<NoteOverview> {
                   supportParentDoubleTap: false,
                   onNodeTap: (key) {
                     if (key == treeViewController.selectedKey) {
-                      var note = noteRepository.findNote(key);
-                      if (note == null) {
-                        print("[WARNING] Note '$key' not found.");
+                      var task = taskRepository.findTask(key);
+                      if (task == null) {
+                        print("[WARNING] Task '$key' not found.");
                         return;
                       }
                       keyboardFocus.unfocus();
                       Navigator.push(
                         context,
                         DesktopPageRoute(builder: (context) {
-                          return NoteDetails(note);
+                          return TaskDetails(task);
                         }),
                       ).then((_) {
                         keyboardFocus.requestFocus();
@@ -130,8 +130,8 @@ class _NoteOverviewState extends State<NoteOverview> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: _addNote,
-          tooltip: 'Add note',
+          onPressed: _addTask,
+          tooltip: 'Add task',
           child: Icon(Icons.add),
         ),
         endDrawer: Drawer(
@@ -154,7 +154,7 @@ class _NoteOverviewState extends State<NoteOverview> {
 
   void updateTreeView() {
     setState(() {
-      treeViewController = TreeViewController(children: _toNodes(noteRepository.getRootNotes()));
+      treeViewController = TreeViewController(children: _toTaskNodes(taskRepository.getRootTasks()));
     });
   }
 
@@ -162,7 +162,7 @@ class _NoteOverviewState extends State<NoteOverview> {
     var selectedKey = treeViewController.selectedKey;
     // ignore: unnecessary_null_comparison
     if (selectedKey != null) {
-      var selectedNote = noteRepository.findNote(selectedKey)!;
+      var selectedTask = taskRepository.findTask(selectedKey)!;
 
       if (event.data.physicalKey == PhysicalKeyboardKey.escape) {
         treeViewController = treeViewController.copyWith(selectedKey: null);
@@ -171,42 +171,42 @@ class _NoteOverviewState extends State<NoteOverview> {
       }
 
       if (event.isControlOrCommandPressed && event.data.keyLabel == "x") {
-        noteInTray = selectedNote;
-        noteRepository.remove(selectedNote);
+        taskInTray = selectedTask;
+        taskRepository.remove(selectedTask);
         treeViewController = treeViewController.copyWith(selectedKey: null);
         updateTreeView();
         return;
       }
-      if (event.isControlOrCommandPressed && event.data.keyLabel == "v" && noteInTray != null) {
-        noteRepository.registerChild(noteInTray!, selectedNote.id);
-        noteInTray = null;
+      if (event.isControlOrCommandPressed && event.data.keyLabel == "v" && taskInTray != null) {
+        taskRepository.registerChild(taskInTray!, selectedTask.id);
+        taskInTray = null;
         updateTreeView();
         return;
       }
       if (event.isControlOrCommandPressed && event.isShiftPressed && event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
-        Project.current.decrementIndex(selectedNote);
+        Project.current.decrementIndex(selectedTask);
         setState(() {
           treeViewController = TreeViewController(
-            children: _toNodes(noteRepository.getRootNotes()),
-            selectedKey: selectedNote.id,
+            children: _toTaskNodes(taskRepository.getRootTasks()),
+            selectedKey: selectedTask.id,
           );
         });
         return;
       }
       if (event.isControlOrCommandPressed && event.isShiftPressed && event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
-        Project.current.incrementIndex(selectedNote);
+        Project.current.incrementIndex(selectedTask);
         setState(() {
           treeViewController = TreeViewController(
-            children: _toNodes(noteRepository.getRootNotes()),
-            selectedKey: selectedNote.id,
+            children: _toTaskNodes(taskRepository.getRootTasks()),
+            selectedKey: selectedTask.id,
           );
         });
         return;
       }
     } else {
-      if (event.isControlOrCommandPressed && event.character == "v" && noteInTray != null) {
-        noteRepository.registerChild(noteInTray!, null);
-        noteInTray = null;
+      if (event.isControlOrCommandPressed && event.character == "v" && taskInTray != null) {
+        taskRepository.registerChild(taskInTray!, null);
+        taskInTray = null;
         updateTreeView();
         return;
       }
@@ -224,13 +224,13 @@ extension _CustomEventQueries on RawKeyEvent {
   }
 }
 
-List<Node> _toNodes(List<Note> notes) {
+List<Node> _toTaskNodes(List<Task> tasks) {
   List<Node> result = [];
-  for (Note note in notes) {
+  for (Task task in tasks) {
     Node node = Node(
-      label: note.title,
-      key: note.id,
-      children: _toNodes(note.children),
+      label: task.title,
+      key: task.id,
+      children: _toTaskNodes(task.children),
     );
     result.add(node);
   }

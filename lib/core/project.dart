@@ -1,23 +1,24 @@
 import "dart:io";
 
 import "package:path/path.dart";
-import "package:succedo/core/note_repository.dart";
+import "package:succedo/core/task_repository.dart";
 import "package:xml/xml.dart";
 
-import "note.dart";
+import "task.dart";
 import 'config.dart';
 
+// TODO Migrate project files from "note" to "task"
 class Project {
   static Project? _current;
 
   late String title;
   late String path;
-  late NoteRepository notes;
+  late TaskRepository tasks;
 
   Project({required this.title, required this.path});
 
   Project.create({required this.title, required this.path}) {
-    notes = NoteRepository.empty();
+    tasks = TaskRepository.empty();
     save();
 
     _current = this;
@@ -25,7 +26,7 @@ class Project {
   }
 
   Project.load({required this.path}) {
-    notes = NoteRepository.empty();
+    tasks = TaskRepository.empty();
     var file = _buildFile(path);
     if (!file.existsSync()) {
       throw "File with path ${file.absolute.path} does not exist.";
@@ -38,7 +39,7 @@ class Project {
     var notesXml = projectNode.getElement("notes");
     if (notesXml != null) {
       for (var noteXml in notesXml.findElements("note")) {
-        notes.add(_deserializeNote(noteXml));
+        tasks.add(_deserializeNote(noteXml));
       }
     }
 
@@ -63,7 +64,7 @@ class Project {
       builder.attribute("title", title);
 
       builder.element("notes", nest: () {
-        for (var note in notes.getRootNotes()) {
+        for (var note in tasks.getRootTasks()) {
           _addNote(builder, note);
         }
       });
@@ -75,7 +76,7 @@ class Project {
     sink.close();
   }
 
-  void _addNote(XmlBuilder builder, Note note) {
+  void _addNote(XmlBuilder builder, Task note) {
     builder.element("note", nest: () {
       builder.attribute("id", note.id);
       builder.element("title", nest: () {
@@ -90,7 +91,7 @@ class Project {
     });
   }
 
-  void _addChildren(XmlBuilder builder, Note note) {
+  void _addChildren(XmlBuilder builder, Task note) {
     if (note.children.isNotEmpty) {
       builder.element("children", nest: () {
         for (var note in note.children) {
@@ -100,14 +101,14 @@ class Project {
     }
   }
 
-  static Note _deserializeNote(XmlElement noteXml) {
+  static Task _deserializeNote(XmlElement noteXml) {
     var title = noteXml.getElement("title")!.text;
     var details;
     var detailsXml = noteXml.getElement("details");
     if (detailsXml != null) {
       details = detailsXml.text;
     }
-    return Note(
+    return Task(
       id: noteXml.getAttribute("id")!,
       title: title,
       details: details,
@@ -115,8 +116,8 @@ class Project {
     );
   }
 
-  static List<Note> _deserializeChildren(XmlElement noteXml) {
-    var result = <Note>[];
+  static List<Task> _deserializeChildren(XmlElement noteXml) {
+    var result = <Task>[];
     var childrenXml = noteXml.getElement("children");
     if (childrenXml != null) {
       var notesXml = childrenXml.findElements("note");
@@ -136,21 +137,21 @@ class Project {
     return File(normalizedPath);
   }
 
-  void decrementIndex(Note noteToBeMoved) {
+  void decrementIndex(Task noteToBeMoved) {
     _changeIndex(noteToBeMoved, -1);
   }
 
-  void incrementIndex(Note noteToBeMoved) {
+  void incrementIndex(Task noteToBeMoved) {
     _changeIndex(noteToBeMoved, 1);
   }
 
-  void _changeIndex(Note noteToBeMoved, int offset) {
-    late List<Note> siblings;
-    var rootNotes = notes.getRootNotes();
+  void _changeIndex(Task noteToBeMoved, int offset) {
+    late List<Task> siblings;
+    var rootNotes = tasks.getRootTasks();
     if (rootNotes.contains(noteToBeMoved)) {
       siblings = rootNotes;
     } else {
-      var parentNote = notes.findParentNote(noteToBeMoved)!;
+      var parentNote = tasks.findParentTask(noteToBeMoved)!;
       siblings = parentNote.children;
     }
     final oldIndex = siblings.indexOf(noteToBeMoved);

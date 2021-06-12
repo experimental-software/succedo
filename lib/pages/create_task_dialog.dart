@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:succedo/core/note.dart';
-import 'package:succedo/core/note_repository.dart';
+import 'package:succedo/core/task.dart';
+import 'package:succedo/core/task_repository.dart';
 import 'package:succedo/core/project.dart';
 import 'package:succedo/util/test_bench.dart';
 import 'package:uuid/uuid.dart';
 
 import '../core/project.dart';
 
-// TODO: Rename to "CreateTaskDialog"
-class CreateNoteDialog extends StatefulWidget {
+class CreateTaskDialog extends StatefulWidget {
   final Function onDialogClose;
-  final Note? parent;
+  final Task? parent;
 
-  CreateNoteDialog({required this.onDialogClose, this.parent});
+  CreateTaskDialog({required this.onDialogClose, this.parent});
 
   @override
-  _CreateNoteDialogState createState() => _CreateNoteDialogState();
+  _CreateTaskDialogState createState() => _CreateTaskDialogState();
 }
 
-class _CreateNoteDialogState extends State<CreateNoteDialog> {
+class _CreateTaskDialogState extends State<CreateTaskDialog> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController detailsController = TextEditingController();
-  final NoteRepository noteRepository = Project.current.notes;
+  final TaskRepository taskRepository = Project.current.tasks;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                     autofocus: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "The note title must not be empty.";
+                        return "The task title must not be empty.";
                       }
                       return null;
                     },
@@ -97,15 +96,15 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
     var currentState = formKey.currentState;
     if (currentState != null) {
       if (currentState.validate()) {
-        var note = Note(
+        var task = Task(
           id: Uuid().v4(),
           title: titleController.text,
           details: detailsController.text,
         );
         if (widget.parent != null) {
-          noteRepository.registerChild(note, widget.parent!.id);
+          taskRepository.registerChild(task, widget.parent!.id);
         } else {
-          noteRepository.add(note);
+          taskRepository.add(task);
         }
         Project.current.save();
         widget.onDialogClose();
@@ -121,8 +120,8 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
 void main() {
   runApp(
     TestBench(
-      child: CreateNoteDialog(
-        onDialogClose: (note) => print(note),
+      child: CreateTaskDialog(
+        onDialogClose: (task) => print(task),
       ),
     ),
   );
