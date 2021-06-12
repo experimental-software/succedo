@@ -19,7 +19,7 @@ plugs:
 
 apps:
   succedo:
-    command: succedo_desktop
+    command: succedo
     extensions: [flutter-master]
     plugs:
       - file-system-access

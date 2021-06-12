@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "succedo_desktop")
-set(APPLICATION_ID "com.example.succedo_desktop")
+set(BINARY_NAME "succedo")
+set(APPLICATION_ID "com.example.succedo")
 
 cmake_policy(SET CMP0063 NEW)
 
