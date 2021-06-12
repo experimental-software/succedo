@@ -16,8 +16,6 @@ In order to build this project, you need to have [Flutter](https://www.flutter.d
 snapcraft --use-lxd
 ```
 
-Also see https://experimental-software.atlassian.net/wiki/spaces/~958839839/blog/2020/12/30/3080591/LXD+Reset+configuration
-
 #### Install snap
 
 ```
@@ -62,4 +60,4 @@ If Succedo is not what you need, then you might have a look at those task and no
 
 ## License
 
-[MIT](LICENSE]
+[MIT](LICENSE)
