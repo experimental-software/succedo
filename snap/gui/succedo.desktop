@@ -1,0 +1,7 @@
+[Desktop Entry]
+Icon=${SNAP}/meta/gui/succedo.png
+Exec=succedo
+Version=1.0
+Type=Application
+Name=Succedo
+Terminal=false

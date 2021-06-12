@@ -1,0 +1,31 @@
+name: succedo
+version: 0.2.1
+summary: Yet another task and note manager
+description: Helps to work of tasks successively.
+
+confinement: devmode
+base: core18
+grade: stable
+
+plugs:
+  file-system-access:
+    interface: system-files
+    read:
+      - /home
+      - /tmp
+    write:
+      - /home
+      - /tmp
+
+apps:
+  succedo:
+    command: succedo
+    extensions: [flutter-master]
+    plugs:
+      - file-system-access
+
+parts:
+  succedo:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
