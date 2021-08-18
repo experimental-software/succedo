@@ -14,8 +14,8 @@ jobs:
         uses: actions/checkout@master
       - name: Setup
         run: sudo snap install snapcraft --classic && sudo snap install lxd
-      - name: Configure
-        run: sudo lxd init --preseed < lxd.yaml
+      - name: Init LXD
+        uses: bonddim/action-lxd-init@v1
       - name: Compile
         run: snapcraft --use-lxd
       - uses: actions/upload-artifact@v2
