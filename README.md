@@ -16,6 +16,11 @@ In order to build this project, you need to have [Flutter](https://www.flutter.d
 snapcraft --use-lxd
 ```
 
+**References**
+
+- https://flutter.dev/docs/deployment/linux
+- https://discuss.linuxcontainers.org/t/how-to-get-the-full-configuration-to-use-it-with-lxd-init-preseed/3333/4
+
 #### Install snap
 
 ```
