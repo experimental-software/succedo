@@ -1,0 +1,14 @@
+on:
+  # release:
+  #   types:
+  #     - created
+  push:
+    branches:    
+      - 2021-08-18/build-with-gh-actions
+      
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: echo "Hello, World!"
