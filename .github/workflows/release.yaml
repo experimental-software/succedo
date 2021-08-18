@@ -19,6 +19,6 @@ jobs:
       - name: Compile
         run: snapcraft --use-lxd
       - uses: actions/upload-artifact@v2
-          with:
-            name: succedo
-            path: succedo_*.snap
+        with:
+          name: succedo
+          path: succedo_*.snap
