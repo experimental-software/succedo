@@ -1,10 +1,10 @@
 on:
-  # release:
-  #   types:
-  #     - created
-  push:
-    branches:    
-      - 2021-08-18/build-with-gh-actions
+  release:
+    types:
+      - created
+  # push:
+  #   branches:    
+  #     - 2021-08-18/build-with-gh-actions
       
 jobs:
   deploy:
@@ -18,7 +18,15 @@ jobs:
         uses: bonddim/action-lxd-init@v1
       - name: Compile
         run: snapcraft --use-lxd
-      - uses: actions/upload-artifact@v2
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: succedo
+      #     path: succedo_*.snap
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: succedo
-          path: succedo_*.snap
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: succedo_*.snap
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true

@@ -20,9 +20,6 @@ snapcraft --use-lxd
 
 - https://flutter.dev/docs/deployment/linux
 - https://discuss.linuxcontainers.org/t/how-to-get-the-full-configuration-to-use-it-with-lxd-init-preseed/3333/4
-- https://github.community/t/can-you-add-binaries-to-releases-with-github-actions/16665/8
-- https://github.com/bonddim/action-lxd-init
-- https://github.com/whywaita/setup-lxd
 
 #### Install snap
 
