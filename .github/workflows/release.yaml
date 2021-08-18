@@ -10,7 +10,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the repository
+        uses: actions/checkout@master
       - name: Setup
         run: sudo snap install snapcraft --classic && sudo snap install lxd
       - name: Configure
         run: sudo lxd init --preseed < lxd.yaml
+      # - name: Compile
+      #   run: snapcraft --use-lxd
+      # 
