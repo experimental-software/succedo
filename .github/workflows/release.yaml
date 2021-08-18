@@ -10,5 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Build
-        run: echo "Hello, World!"
+      - name: Setup
+        run: sudo snap install snapcraft --classic && sudo snap install lxd
+      - name: Configure
+        run: sudo lxd init --preseed < lxd.yaml
